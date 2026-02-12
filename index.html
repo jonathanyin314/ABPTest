@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APB Elite | 运动员表现蓝图</title>
+    <title>APB Elite | 运动员表现蓝图 v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,30 +11,45 @@
 
     <main id="home-page" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4">
         <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
-        <button onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold">开始测试</button>
+        <p class="text-xl text-slate-300 mb-10">基于运动控制理论的精英测评系统</p>
+        <button onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl">开始专业测评</button>
     </main>
 
-    <main id="quiz-page" class="hidden min-h-screen flex items-center justify-center px-4">
+    <main id="quiz-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
         <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-            <div id="dim-label" class="text-sm font-bold text-slate-400 mb-2">正在评估...</div>
-            <div class="h-2 bg-slate-100 rounded-full mb-8"><div id="progress-bar" class="h-full bg-blue-600 w-0"></div></div>
-            <h2 id="question-text" class="text-2xl font-bold mb-10"></h2>
+            <div class="mb-10">
+                <div class="flex justify-between text-sm font-bold text-slate-400 mb-2">
+                    <span id="dim-label">正在评估变量...</span>
+                    <span id="progress-text">1 / 16</span>
+                </div>
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500" style="width: 6%"></div>
+                </div>
+            </div>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug italic">加载题目中...</h2>
             <div id="options-container" class="grid gap-4"></div>
         </div>
     </main>
 
-    <main id="result-page" class="hidden min-h-screen bg-slate-900 text-white flex flex-col items-center py-12 px-4">
-        <div id="result-code" class="text-8xl font-black mb-4"></div>
-        <h2 id="result-name-cn" class="text-4xl font-bold mb-2"></h2>
-        <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-10"></h3>
+    <main id="result-page" class="hidden min-h-screen bg-slate-900 text-white flex flex-col items-center py-12 px-4 text-center">
+        <p class="text-blue-400 font-bold tracking-widest mb-2">APB ATHLETE ARCHETYPE</p>
+        <div id="result-code" class="text-7xl md:text-9xl font-black mb-4 tracking-tighter">CODE</div>
+        <h2 id="result-name-cn" class="text-4xl font-bold mb-2">角色名称</h2>
+        <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-10">English Name</h3>
         
-        <div class="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl">
-            <div class="totem-bg p-8 rounded-3xl"><p id="totem-desc"></p></div>
-            <div class="bg-white/10 p-8 rounded-3xl"><p id="character-desc"></p></div>
+        <div class="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl text-left">
+            <div class="totem-bg p-8 rounded-3xl">
+                <h4 class="text-blue-400 font-bold mb-2">层级 A: 背景图腾 (The Totem)</h4>
+                <p id="totem-desc" class="text-slate-300 text-sm"></p>
+            </div>
+            <div class="bg-white/10 p-8 rounded-3xl">
+                <h4 class="text-blue-400 font-bold mb-2">层级 B: 人物立绘 (The Character)</h4>
+                <p id="character-desc" class="text-slate-300 text-sm"></p>
+            </div>
         </div>
         
-        <p id="one-liner" class="text-xl italic mb-10"></p>
-        <button class="bg-blue-600 px-10 py-4 rounded-xl font-bold">获取 15 页专业报告</button>
+        <p id="one-liner" class="text-xl italic mb-10 text-white/80 max-w-2xl"></p>
+        <button class="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg">获取完整干预指南 (￥19.9)</button>
     </main>
 
     <script src="app.js"></script>
