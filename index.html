@@ -18,8 +18,8 @@
                 不仅是性格，<br><span class="text-blue-400">更是你的赛场基因。</span>
             </h1>
             <p class="text-xl text-slate-300 mb-10 leading-relaxed">
-                APB (Athlete Performance Blueprint) 是一套专为竞技体育设计的心理测量系统。
-                基于运动控制理论，精准测量影响表现的关键变量。
+                APB (Athlete Performance Blueprint) 是一套专为竞技体育设计的心理测量系统 [cite: 5, 57]。
+                基于运动控制理论，精准测量影响表现的关键变量 [cite: 57]。
             </p>
             <button onclick="startQuiz()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition-all transform hover:scale-105">
                 开始专业测评 (16题 MVP 版)
@@ -34,4 +34,105 @@
                     <span id="dim-label">维度加载中...</span>
                     <span id="progress-text">1 / 16</span>
                 </div>
-                <div class="
+                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500" style="width: 6%"></div>
+                </div>
+            </div>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug">正在加载...</h2>
+            <div id="options-container" class="grid gap-4"></div>
+        </div>
+    </main>
+
+    <main id="result-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-10 text-center">
+            <div class="inline-block px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">测评已完成</div>
+            <h2 class="text-slate-500 font-medium mb-2">你的 APB 竞技人格原型是</h2>
+            <div id="result-code" class="text-7xl font-black text-slate-900 mb-2 tracking-tighter">分析中...</div>
+            <h3 id="result-name" class="text-3xl font-bold text-blue-600 mb-8">加载人设...</h3>
+            <div class="bg-slate-50 p-6 rounded-2xl text-left mb-8 border border-slate-100">
+                <p id="result-desc" class="text-slate-600 leading-relaxed italic"></p>
+            </div>
+            <button class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-black transition-all">
+                获取完整 15 页干预指南 (￥19.9)
+            </button>
+            <p class="mt-4 text-slate-400 text-sm">基于 IZOF、VARK 及 Nideffer 理论的专业建议 [cite: 26]</p>
+        </div>
+    </main>
+
+    <script>
+        const questions = [
+            // 基于手册核心维度构建题目 [cite: 65-77]
+            { dim: "A", label: "注意广度 (A)", q: "在比赛防守中，你更倾向于：", a: "监控全场的空档与跑位 (Broad)", b: "死盯自己负责的对位球员 (Narrow)", valA: "B", valB: "N" },
+            { dim: "A", label: "注意广度 (A)", q: "当你持球时，你的第一直觉是：", a: "寻找远端空位的队友 (Broad)", b: "寻找面前的进攻切入点 (Narrow)", valA: "B", valB: "N" },
+            { dim: "A", label: "注意广度 (A)", q: "面对突发反击，你倾向于：", a: "观察整体阵型的变化 (Broad)", b: "加速追赶最近的球权 (Narrow)", valA: "B", valB: "N" },
+            { dim: "C", label: "指令偏好 (C)", q: "罚球或射门前，你脑海中更多是：", a: "身体发力的顺序与感觉 (Internal)", b: "球划过弧线进入目标的过程 (External)", valA: "I", valB: "E" },
+            { dim: "C", label: "指令偏好 (C)", q: "执行技术动作时，你更倾向关注：", a: "自己的身体协调感 (Internal)", b: "动作产生的外部效果 (External)", valA: "I", valB: "E" },
+            { dim: "C", label: "指令偏好 (C)", q: "陷入疲劳时，你会下意识地：", a: "控制呼吸和心率的节奏 (Internal)", b: "寻找外部节奏或参考物 (External)", valA: "I", valB: "E" },
+            { dim: "C", label: "指令偏好 (C)", q: "完成高难度动作后，你的反馈是：", a: "核心收紧感很好 (Internal)", b: "落点非常精准 (External)", valA: "I", valB: "E" },
+            { dim: "P", label: "感知通道 (P)", q: "复盘比赛时，你更喜欢：", a: "观看比赛视频剪辑 (Visual)", b: "回想肌肉发力的瞬间 (Kinesthetic)", valA: "V", valB: "K" },
+            { dim: "P", label: "感知通道 (P)", q: "理解新战术图纸对你来说：", a: "非常直观，一眼看明白 (Visual)", b: "需要在场上走一遍才行 (Kinesthetic)", valA: "V", valB: "K" },
+            { dim: "P", label: "感知通道 (P)", q: "记忆最深刻的瞬间通常是：", a: "传球的惊艳视觉画面 (Visual)", b: "对抗中的肌肉撞击感 (Kinesthetic)", valA: "V", valB: "K" },
+            { dim: "M", label: "动力引擎 (M)", q: "落后时，你的动力来自于：", a: "证明自己不比对手差 (Ego)", b: "尝试新方案并打成它 (Task)", valA: "E", valB: "T" },
+            { dim: "M", label: "动力引擎 (M)", q: "面对高强度训练，你最在意：", a: "是否完成今天训练目标 (Task)", b: "是否在组内表现排名第一 (Ego)", valA: "T", valB: "E" },
+            { dim: "M", label: "动力引擎 (M)", q: "退役后的理想评价是：", a: "一个精进技术的大师 (Task)", b: "一个赢得过冠军的传奇 (Ego)", valA: "T", valB: "E" },
+            { dim: "R", label: "情绪调节 (R)", q: "面对失误，你会：", a: "强行屏蔽情绪继续专注 (Stoic)", b: "通过情绪释放激励自己 (Reactive)", valA: "S", valB: "R" },
+            { dim: "R", label: "情绪调节 (R)", q: "状态火热时，你通常：", a: "依然保持冷酷和专注 (Stoic)", b: "会有更多的激情庆祝 (Reactive)", valA: "S", valB: "R" },
+            { dim: "R", label: "情绪调节 (R)", q: "面对批评，你表现得：", a: "低头反思，不露声色 (Stoic)", b: "会表达观点，据理力争 (Reactive)", valA: "S", valB: "R" }
+        ];
+
+        let currentStep = 0;
+        let scores = {};
+
+        function startQuiz() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentStep];
+            document.getElementById('dim-label').innerText = q.label;
+            document.getElementById('progress-text').innerText = `${currentStep + 1} / 16`;
+            document.getElementById('progress-bar').style.width = `${((currentStep + 1) / 16) * 100}%`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('options-container').innerHTML = `
+                <button onclick="handleSelect('${q.dim}', '${q.valA}')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-500 hover:bg-blue-50 transition-all font-bold">A. ${q.a}</button>
+                <button onclick="handleSelect('${q.dim}', '${q.valB}')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-500 hover:bg-blue-50 transition-all font-bold">B. ${q.b}</button>
+            `;
+        }
+
+        function handleSelect(dim, val) {
+            if (!scores[dim]) scores[dim] = [];
+            scores[dim].push(val);
+            currentStep++;
+            if (currentStep < 16) renderQuestion(); else showResult();
+        }
+
+        function showResult() {
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+            const getMajor = (arr) => {
+                const c = arr.reduce((a, v) => { a[v] = (a[v] || 0) + 1; return a; }, {});
+                return Object.keys(c).reduce((a, b) => c[a] > c[b] ? a : b);
+            };
+
+            const finalA = getMajor(scores['A']);
+            const finalC = getMajor(scores['C']);
+            const code = finalA + finalC;
+            document.getElementById('result-code').innerText = code;
+            
+            // 4 大底座家族匹配 [cite: 86-89]
+            const archetypes = {
+                "BE": { name: "The Commander", desc: "直觉型布局者 (Broad + External)。基于 Nideffer 理论，你善于掌控全局节奏 [cite: 86]。" },
+                "BI": { name: "The Mastermind", desc: "计算型布局者 (Broad + Internal)。你将广阔视野与内部专注结合，是战术大脑 [cite: 87]。" },
+                "NE": { name: "The Assassin", desc: "直觉型终结者 (Narrow + External)。高度聚焦外部目标，你是精准的终结力量 [cite: 88]。" },
+                "NI": { name: "The Practitioner", desc: "计算型终结者 (Narrow + Internal)。通过精密技术控制实现极致表现 [cite: 89]。" }
+            };
+            
+            const match = archetypes[code] || { name: "竞技先锋", desc: "你的风格旨在优化自我认知与教练沟通。" };
+            document.getElementById('result-name').innerText = match.name;
+            document.getElementById('result-desc').innerText = match.desc;
+        }
+    </script>
+</body>
+</html>
