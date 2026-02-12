@@ -1,0 +1,27 @@
+/* --- APB VISUAL LOGIC v2.0 --- */
+.hero-gradient { 
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); 
+}
+
+.hidden { display: none; }
+
+.totem-bg { 
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px dashed rgba(255, 255, 255, 0.2); 
+}
+
+.option-btn {
+    width: 100%;
+    padding: 1.5rem;
+    border: 2px solid #f1f5f9;
+    border-radius: 1.5rem;
+    text-align: left;
+    font-weight: 700;
+    color: #334155;
+    transition: all 0.2s;
+}
+
+.option-btn:hover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
