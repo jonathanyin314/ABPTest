@@ -10,9 +10,29 @@
 <body class="bg-slate-50 min-h-screen font-sans text-slate-900">
 
     <main id="home-page" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4">
-        <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
-        <p class="text-xl text-slate-300 mb-10">基于运动控制理论的精英测评系统</p>
-        <button onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl">开始专业测评</button>
+        <div class="max-w-4xl py-20">
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">APB ELITE</h1>
+            <p class="text-xl text-slate-300 mb-10">基于运动控制理论的精英表现测量系统 [cite: 87, 90]</p>
+            
+            <button onclick="startQuiz()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl mb-20 transition transform hover:scale-105">
+                开始专业测评 (16题)
+            </button>
+
+            <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16">
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <h4 class="text-blue-400 font-bold mb-2">运动控制理论 [cite: 90]</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">基于受限动作假说(CAH)与 Nideffer 注意力模型，精准测量信息感知与决策习惯，而非广义社会性格。[cite: 90, 102, 104]</p>
+                </div>
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <h4 class="text-blue-400 font-bold mb-2">去病理化原则 </h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">结果以“天赋与风格”呈现，旨在优化教练沟通与自我认知，不进行任何优劣判定或心理诊断。</p>
+                </div>
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <h4 class="text-blue-400 font-bold mb-2">置信度加权算法 </h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">采用 16-Item 商业模型，结合后台 Confidence Weighting 机制，确保在分钟级测试中依然具备极高信度。[cite: 92, 114]</p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <main id="quiz-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
@@ -32,24 +52,26 @@
     </main>
 
     <main id="result-page" class="hidden min-h-screen bg-slate-900 text-white flex flex-col items-center py-12 px-4 text-center">
-        <p class="text-blue-400 font-bold tracking-widest mb-2">APB ATHLETE ARCHETYPE</p>
+        <p class="text-blue-400 font-bold tracking-widest mb-2 uppercase">APB Athlete Archetype [cite: 117]</p>
         <div id="result-code" class="text-7xl md:text-9xl font-black mb-4 tracking-tighter">CODE</div>
         <h2 id="result-name-cn" class="text-4xl font-bold mb-2">角色名称</h2>
-        <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-10">English Name</h3>
+        <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-10 tracking-wide">English Name</h3>
         
-        <div class="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl text-left">
+        <div class="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl text-left w-full">
             <div class="totem-bg p-8 rounded-3xl">
-                <h4 class="text-blue-400 font-bold mb-2">层级 A: 背景图腾 (The Totem)</h4>
-                <p id="totem-desc" class="text-slate-300 text-sm"></p>
+                <h4 class="text-blue-400 font-bold mb-2">层级 A: 背景图腾 (The Totem) [cite: 125]</h4>
+                <p id="totem-desc" class="text-slate-300 text-sm leading-relaxed"></p>
             </div>
             <div class="bg-white/10 p-8 rounded-3xl">
-                <h4 class="text-blue-400 font-bold mb-2">层级 B: 人物立绘 (The Character)</h4>
-                <p id="character-desc" class="text-slate-300 text-sm"></p>
+                <h4 class="text-blue-400 font-bold mb-2">层级 B: 人物立绘 (The Character) [cite: 126]</h4>
+                <p id="character-desc" class="text-slate-300 text-sm leading-relaxed"></p>
             </div>
         </div>
         
-        <p id="one-liner" class="text-xl italic mb-10 text-white/80 max-w-2xl"></p>
-        <button class="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg">获取完整干预指南 (￥19.9)</button>
+        <p id="one-liner" class="text-xl italic mb-10 text-white/80 max-w-2xl px-6"></p>
+        <button class="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">
+            获取完整 15 页干预指南 (￥19.9) [cite: 38]
+        </button>
     </main>
 
     <script src="app.js"></script>
