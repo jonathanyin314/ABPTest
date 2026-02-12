@@ -12,21 +12,21 @@
     <main id="home-page" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4">
         <div class="max-w-4xl py-20">
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
-            <p class="text-xl text-slate-300 mb-10">专业竞技表现评估系统 (Confidential/Internal Use Only)</p>
+            <p class="text-xl text-slate-300 mb-10 tracking-widest uppercase">Athlete Performance Blueprint</p>
             <button onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl mb-20 hover:scale-105 transition">开始测评</button>
 
             <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16">
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                     <h4 class="text-blue-400 font-bold mb-2">竞技认知重构</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">基于运动控制理论，精准测量信息感知、注意焦点、视野广度等 5 个关键变量。</p>
+                    <p class="text-slate-400 text-sm leading-relaxed">精准测量信息感知、注意焦点、视野广度、成就动机与唤醒调节 5 个关键表现变量 。</p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                     <h4 class="text-blue-400 font-bold mb-2">16-Item 商业模型</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">分钟级快速测评，通过后台“置信度加权”算法确保核心维度具备极高信度。</p>
+                    <p class="text-slate-400 text-sm leading-relaxed">采用精简题量最大化用户留存，结合后台“置信度加权”机制确保分钟级评估的科学信度 。</p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h4 class="text-blue-400 font-bold mb-2">Trait & State 架构</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">底层特质结合 Pulse 实时监测，所有反馈遵循去病理化原则，仅针对天赋呈现。</p>
+                    <h4 class="text-blue-400 font-bold mb-2">去病理化原则</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">基于 Trait & Pulse 双模组架构，所有结果均以“天赋风格”呈现，优化教练沟通与自我认知 。</p>
                 </div>
             </div>
         </div>
@@ -40,6 +40,22 @@
             </div>
             <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug">正在加载...</h2>
             <div id="options-container" class="grid gap-4"></div>
+        </div>
+    </main>
+
+    <main id="confirm-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-10 text-center">
+            <div class="text-blue-600 mb-6 flex justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h2 class="text-3xl font-black text-slate-800 mb-4">测评已完成</h2>
+            <p class="text-slate-500 mb-8 leading-relaxed text-lg">系统已收集你的竞技认知样本。你准备好揭晓你的 <b>APB 竞技人格代码</b>了吗？</p>
+            <div class="flex flex-col gap-4">
+                <button onclick="showResult()" class="bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-blue-700 transition">揭晓我的代码</button>
+                <button onclick="goBackToLast()" class="text-slate-400 font-bold hover:text-slate-600">返回检查最后一题</button>
+            </div>
         </div>
     </main>
 
@@ -60,7 +76,7 @@
         </div>
         
         <p id="one-liner" class="text-xl italic mb-10 text-white/80 max-w-2xl"></p>
-        <button class="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg">获取完整 15 页报告 (￥19.9)</button>
+        <button class="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold">获取完整 15 页报告 (￥19.9)</button>
     </main>
 
     <script src="app.js"></script>
