@@ -18,10 +18,11 @@
                 不仅是性格，<br><span class="text-blue-400">更是你的赛场基因。</span>
             </h1>
             <p class="text-xl text-slate-300 mb-10 leading-relaxed">
-                APB (Athlete Performance Blueprint) 是一套专为竞技体育设计的心理测量系统 [cite: 5]。通过 16 题快速测评，弥补通用人格与表现数据之间的空白 [cite: 57]。
+                APB (Athlete Performance Blueprint) 是一套专为竞技体育设计的心理测量系统。
+                基于运动控制理论，精准测量影响表现的关键变量。
             </p>
             <button onclick="startQuiz()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition-all transform hover:scale-105">
-                开始专业测评 (MVP 版)
+                开始专业测评 (16题 MVP 版)
             </button>
         </div>
     </main>
@@ -33,99 +34,4 @@
                     <span id="dim-label">维度加载中...</span>
                     <span id="progress-text">1 / 16</span>
                 </div>
-                <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500" style="width: 6%"></div>
-                </div>
-            </div>
-            
-            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug">
-                加载题目中...
-            </h2>
-            
-            <div id="options-container" class="grid gap-4">
-                </div>
-        </div>
-    </main>
-
-    <main id="result-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
-        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-10 text-center">
-            <div class="inline-block px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-4">测评已完成</div>
-            <h2 class="text-slate-500 font-medium mb-2">你的 APB 竞技人格原型是</h2>
-            <div id="result-code" class="text-7xl font-black text-slate-900 mb-2 tracking-tighter">分析中...</div>
-            <h3 id="result-name" class="text-3xl font-bold text-blue-600 mb-8">加载人设...</h3>
-            
-            <div class="bg-slate-50 p-6 rounded-2xl text-left mb-8 border border-slate-100">
-                <p id="result-desc" class="text-slate-600 leading-relaxed italic"></p>
-            </div>
-            
-            <button class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-black transition-all">
-                获取完整 15 页干预指南 (￥19.9)
-            </button>
-            <p class="mt-4 text-slate-400 text-sm">包含依据 IZOF 与 Nideffer 理论定制的训练建议 [cite: 12]</p>
-        </div>
-    </main>
-
-    <script>
-        // 核心题目库：覆盖五个关键变量 [cite: 57]
-        const questions = [
-            { dim: "A", label: "注意广度 (Attentional Awareness)", q: "在激烈的比赛中，你的注意力通常：", a: "能清晰感知全场队友和对手的站位 (Broad) [cite: 72]", b: "高度聚焦在球或核心技术动作上 (Narrow) [cite: 72]", valA: "B", valB: "N" },
-            { dim: "C", label: "指令偏好 (Cue Processing)", q: "执行技术动作时，你更倾向于关注：", a: "自己肌肉的发力与身体协调感 (Internal) [cite: 69]", b: "动作产生的外部效果，如球的弧线 (External) [cite: 69]", valA: "I", valB: "E" },
-            { dim: "P", label: "感知通道 (Perception)", q: "学习新战术时，你觉得哪种方式最有效？", a: "看战术板或视频演示 (Visual) [cite: 67]", b: "在场上实际演练感受走位 (Kinesthetic) [cite: 67]", valA: "V", valB: "K" },
-            { dim: "M", label: "动力引擎 (Motivation)", q: "什么最能激发你的斗志？", a: "挑战自我，完成技术上的突破 (Task) [cite: 75]", b: "在直接对抗中证明自己更强 (Ego) [cite: 75]", valA: "T", valB: "E" },
-            { dim: "R", label: "情绪调节 (Emotional Regulation)", q: "面对裁判的争议判罚，你通常会：", a: "迅速压抑情绪，保持冷静的竞技状态 (Stoic) [cite: 77]", b: "通过情绪释放来激励自己后续的表现 (Reactive) [cite: 77]", valA: "S", valB: "R" }
-        ];
-
-        let currentStep = 0;
-        let userResults = {};
-
-        function startQuiz() {
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('quiz-page').classList.remove('hidden');
-            renderQuestion();
-        }
-
-        function renderQuestion() {
-            const q = questions[currentStep];
-            document.getElementById('dim-label').innerText = q.label;
-            document.getElementById('progress-text').innerText = `${currentStep + 1} / ${questions.length}`;
-            document.getElementById('progress-bar').style.width = `${((currentStep + 1) / questions.length) * 100}%`;
-            document.getElementById('question-text').innerText = q.q;
-            
-            document.getElementById('options-container').innerHTML = `
-                <button onclick="handleSelect('${q.dim}', '${q.valA}')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-500 hover:bg-blue-50 transition-all font-bold text-slate-700">A. ${q.a}</button>
-                <button onclick="handleSelect('${q.dim}', '${q.valB}')" class="p-6 border-2 border-slate-100 rounded-2xl text-left hover:border-blue-500 hover:bg-blue-50 transition-all font-bold text-slate-700">B. ${q.b}</button>
-            `;
-        }
-
-        function handleSelect(dim, val) {
-            userResults[dim] = val;
-            currentStep++;
-            if (currentStep < questions.length) {
-                renderQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
-            document.getElementById('quiz-page').classList.add('hidden');
-            document.getElementById('result-page').classList.remove('hidden');
-            
-            // 基于底座 A 和 C 生成 4 大底座代码 
-            const code = userResults['A'] + userResults['C'];
-            document.getElementById('result-code').innerText = code;
-            
-            const archetypes = {
-                "BE": { name: "The Commander", desc: "直觉型布局者。你拥有广阔的视野和外部指令偏好，天生善于掌控比赛节奏 [cite: 86]。" },
-                "BI": { name: "The Mastermind", desc: "计算型布局者。结合广阔视野与内部专注，你是球队的战术核心与大脑 [cite: 87]。" },
-                "NE": { name: "The Assassin", desc: "直觉型终结者。高度聚焦并关注外部目标，你是致命的赛场终结者 [cite: 88]。" },
-                "NI": { name: "The Practitioner", desc: "计算型终结者。极度专注细节与自身动作，通过精密的重复实现极致表现 [cite: 89]。" }
-            };
-            
-            const match = archetypes[code] || { name: "竞技先锋", desc: "你的风格独特，旨在优化自我认知与教练沟通 [cite: 9]。" };
-            document.getElementById('result-name').innerText = match.name;
-            document.getElementById('result-desc').innerText = match.desc;
-        }
-    </script>
-</body>
-</html>
+                <div class="
