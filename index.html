@@ -17,8 +17,12 @@
         <div class="max-w-3xl">
             <div class="mb-6 inline-block px-3 py-1 border border-blue-400 text-blue-400 text-xs rounded-full uppercase tracking-widest">Confidential / Internal Use Only</div>
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">APB ELITE <span class="text-blue-400">v2.0</span></h1>
-            <p class="text-xl text-slate-300 mb-10 leading-relaxed">基于运动控制理论，精准测量信息感知、注意焦点、视野广度、成就动机与唤醒调节。</p>
-            <button onclick="startQuiz()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition-all transform hover:scale-105">开始 16 题专业测评</button>
+            <p class="text-xl text-slate-300 mb-10 leading-relaxed">
+                基于运动控制理论，精准测量信息感知、注意焦点、视野广度、成就动机与唤醒调节 [cite: 142]。
+            </p>
+            <button onclick="startQuiz()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition-all transform hover:scale-105">
+                开始专业测评 (16题)
+            </button>
         </div>
     </main>
 
@@ -26,14 +30,14 @@
         <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12">
             <div class="mb-10">
                 <div class="flex justify-between text-sm font-bold text-slate-400 mb-2">
-                    <span id="dim-label">维度</span>
+                    <span id="dim-label">正在评估关键变量...</span>
                     <span id="progress-text">1 / 16</span>
                 </div>
                 <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
                     <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500" style="width: 6%"></div>
                 </div>
             </div>
-            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug italic">加载中...</h2>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug italic">正在加载...</h2>
             <div id="options-container" class="grid gap-4"></div>
         </div>
     </main>
@@ -52,13 +56,17 @@
                     <h4 class="text-blue-400 font-bold mb-4 flex items-center">
                         <span class="mr-2">◈</span> 层级 A: 背景图腾 (The Totem)
                     </h4>
-                    <p id="totem-desc" class="text-slate-300 text-sm leading-relaxed">负责解释代码维度的视觉信号...</p>
+                    <p id="totem-desc" class="text-slate-300 text-sm leading-relaxed">
+                        背景图腾承载了所有细分维度的视觉信号 [cite: 71, 177]。
+                    </p>
                 </div>
                 <div class="bg-white/10 p-8 rounded-3xl">
                     <h4 class="text-blue-400 font-bold mb-4 flex items-center">
                         <span class="mr-2">◈</span> 层级 B: 人物立绘 (The Character)
                     </h4>
-                    <p id="character-desc" class="text-slate-300 text-sm leading-relaxed">负责表现家族的核心气质与体态...</p>
+                    <p id="character-desc" class="text-slate-300 text-sm leading-relaxed">
+                        立绘仅负责表现底座家族的核心气质与标志性动作 [cite: 77, 178]。
+                    </p>
                 </div>
             </div>
 
@@ -72,28 +80,29 @@
     </main>
 
     <script>
+        // 基于技术手册与资产库的 16 题核心逻辑，已移除提示性标签
         const questions = [
-            // 维度 A: 注意广度 (3题) [cite: 157]
-            { dim: "A", label: "注意广度 (A)", q: "比赛中，你更倾向于监控全场的空档，还是死盯对位球员？", a: "监控全场 (Broad)", b: "死盯对位 (Narrow)", valA: "B", valB: "N" },
-            { dim: "A", label: "注意广度 (A)", q: "持球时，你第一直觉是看远端队友还是面前进攻点？", a: "远端队友 (Broad)", b: "面前进攻点 (Narrow)", valA: "B", valB: "N" },
-            { dim: "A", label: "注意广度 (A)", q: "面对反击，你观察阵型变化还是追赶球权？", a: "观察阵型 (Broad)", b: "追赶球权 (Narrow)", valA: "B", valB: "N" },
-            // 维度 C: 指令偏好 (4题) [cite: 154]
-            { dim: "C", label: "指令偏好 (C)", q: "发力前，你脑中更多是肌肉感觉还是球的轨迹？", a: "肌肉感觉 (Internal)", b: "球的轨迹 (External)", valA: "I", valB: "E" },
-            { dim: "C", label: "指令偏好 (C)", q: "教练指令后，你检查动作变形还是观察战术位置？", a: "检查动作 (Internal)", b: "观察位置 (External)", valA: "I", valB: "E" },
-            { dim: "C", label: "指令偏好 (C)", q: "疲劳时，你控制呼吸节奏还是寻找外部节奏？", a: "控制呼吸 (Internal)", b: "外部参考 (External)", valA: "I", valB: "E" },
-            { dim: "C", label: "指令偏好 (C)", q: "成功后，反馈是核心收紧感好还是落点精准？", a: "核心收紧 (Internal)", b: "落点精准 (External)", valA: "I", valB: "E" },
-            // 维度 P: 感知通道 (3题) [cite: 152]
-            { dim: "P", label: "感知通道 (P)", q: "复盘时，喜欢看视频还是回想肌肉发力感？", a: "看视频 (Visual)", b: "回想发力 (Kinesthetic)", valA: "V", valB: "K" },
-            { dim: "P", label: "感知通道 (P)", q: "理解战术图，是看图直观还是走一遍才明白？", a: "看图直观 (Visual)", b: "走一遍才懂 (Kinesthetic)", valA: "V", valB: "K" },
-            { dim: "P", label: "感知通道 (P)", q: "深刻记忆是惊艳的画面还是对抗的撞击感？", a: "视觉画面 (Visual)", b: "肌肉撞击 (Kinesthetic)", valA: "V", valB: "K" },
-            // 维度 M: 动力引擎 (3题) [cite: 160]
-            { dim: "M", label: "动力引擎 (M)", q: "动力来源是挑战自我突破，还是击败强大对手？", a: "挑战自我 (Task)", b: "击败对手 (Ego)", valA: "T", valB: "E" },
-            { dim: "M", label: "动力引擎 (M)", q: "在意的是完成训练目标，还是组内排名第一？", a: "完成目标 (Task)", b: "排名第一 (Ego)", valA: "T", valB: "E" },
-            { dim: "M", label: "动力引擎 (M)", q: "理想评价是精进技术的大师，还是赢得冠军的传奇？", a: "技术大师 (Task)", b: "夺冠传奇 (Ego)", valA: "T", valB: "E" },
-            // 维度 R: 情绪调节 (3题) [cite: 162]
-            { dim: "R", label: "情绪调节 (R)", q: "失误后，你屏蔽情绪继续专注，还是释放情绪激励自己？", a: "屏蔽情绪 (Stoic)", b: "释放情绪 (Reactive)", valA: "S", valB: "R" },
-            { dim: "R", label: "情绪调节 (R)", q: "状态火热时，你保持冷酷，还是会有更多激情庆祝？", a: "保持冷酷 (Stoic)", b: "激情庆祝 (Reactive)", valA: "S", valB: "R" },
-            { dim: "R", label: "情绪调节 (R)", q: "面对批评，你低头反思还是据理力争？", a: "低头反思 (Stoic)", b: "据理力争 (Reactive)", valA: "S", valB: "R" }
+            // 维度 A: 注意广度 (3题) [cite: 155, 157]
+            { dim: "A", label: "注意评估", q: "在比赛防守中，你更倾向于：", a: "监控全场的空档与跑位", b: "死盯自己负责的对位球员", valA: "B", valB: "N" },
+            { dim: "A", label: "注意评估", q: "当你持球时，你的第一直觉是：", a: "寻找远端空位的队友", b: "寻找面前的进攻切入点", valA: "B", valB: "N" },
+            { dim: "A", label: "注意评估", q: "面对突发反击，你倾向于：", a: "观察整体阵型的变化", b: "加速追赶最近的球权", valA: "B", valB: "N" },
+            // 维度 C: 指令偏好 (4题) [cite: 153, 154]
+            { dim: "C", label: "控制模式", q: "罚球或射门前，你脑海中更多是：", a: "身体发力的顺序与感觉", b: "球划过弧线进入目标的过程", valA: "I", valB: "E" },
+            { dim: "C", label: "控制模式", q: "教练在场边大喊指令时，你更容易：", a: "检查自己的动作是否变形", b: "立刻观察指令提到的战术位置", valA: "I", valB: "E" },
+            { dim: "C", label: "控制模式", q: "陷入疲劳时，你会下意识地：", a: "控制呼吸和心率的节奏", b: "寻找外部节奏或参考物", valA: "I", valB: "E" },
+            { dim: "C", label: "控制模式", q: "完成高难度动作后，你的第一反馈是：", a: "刚才的核心收紧感很好", b: "球的落点非常精准", valA: "I", valB: "E" },
+            // 维度 P: 感知通道 (3题) [cite: 150, 152]
+            { dim: "P", label: "感知学习", q: "复盘比赛时，你更喜欢哪种方式？", a: "反复观看比赛视频剪辑", b: "在脑中回想肌肉发力的瞬间", valA: "V", valB: "K" },
+            { dim: "P", label: "感知学习", q: "理解新战术图纸对你来说：", a: "非常直观，一眼就能看明白", b: "有点抽象，需要在场上走一遍才行", valA: "V", valB: "K" },
+            { dim: "P", label: "感知学习", q: "你记忆最深刻的比赛瞬间通常是：", a: "那次传球的惊艳视觉画面", b: "那次对抗中肌肉的撞击感", valA: "V", valB: "K" },
+            // 维度 M: 动力引擎 (3题) [cite: 158, 160]
+            { dim: "M", label: "动力引擎", q: "落后时，你的动力主要来自于：", a: "尝试新的进攻方案并打成它", b: "证明自己的能力不比对手差", valA: "T", valB: "E" },
+            { dim: "M", label: "动力引擎", q: "面对高强度训练，你更在意：", a: "是否完成了今天的训练目标", b: "是否在组内表现排名第一", valA: "T", valB: "E" },
+            { dim: "M", label: "动力引擎", q: "你最希望获得的理想评价是：", a: "一个不断精进自己技术的大师", b: "一个赢得过无数冠军的传奇", valA: "T", valB: "E" },
+            // 维度 R: 情绪调节 (3题) [cite: 161, 162]
+            { dim: "R", label: "调节机制", q: "面对关键球失误，你通常会：", a: "迅速压抑情绪，保持冷静专注", b: "通过情绪释放来激励后续表现", valA: "S", valB: "R" },
+            { dim: "R", label: "调节机制", q: "当你状态火热时，你通常会：", a: "依然保持冷酷和极度专注", b: "会有更多的激情庆祝和互动", valA: "S", valB: "R" },
+            { dim: "R", label: "调节机制", q: "在更衣室面对批评，你表现得：", a: "低头反思，不露声色", b: "会表达观点，据理力争", valA: "S", valB: "R" }
         ];
 
         let currentStep = 0;
@@ -133,34 +142,31 @@
                 return Object.keys(c).reduce((a, b) => c[a] > c[b] ? a : b);
             };
 
-            // 1. 确定 5 个变量的主导字母 [cite: 88, 90]
-            const A = getMajor(scores['A']); // B or N
-            const C_dim = getMajor(scores['C']); // I or E
-            const M = getMajor(scores['M']); // T or E
-            const R = getMajor(scores['R']); // S or R
-            const P = getMajor(scores['P']); // V or K
+            const A = getMajor(scores['A']); 
+            const C_dim = getMajor(scores['C']); 
+            const M = getMajor(scores['M']); 
+            const R = getMajor(scores['R']); 
+            const P = getMajor(scores['P']); 
 
-            // 2. 确定底座家族代码 (Position 1) 
             let family = "";
-            if (A === "B" && C_dim === "E") family = "C"; // Commander
-            else if (A === "B" && C_dim === "I") family = "M"; // Mastermind
-            else if (A === "N" && C_dim === "E") family = "A"; // Assassin
-            else if (A === "N" && C_dim === "I") family = "P"; // Practitioner
+            if (A === "B" && C_dim === "E") family = "C"; 
+            else if (A === "B" && C_dim === "I") family = "M"; 
+            else if (A === "N" && C_dim === "E") family = "A"; 
+            else if (A === "N" && C_dim === "I") family = "P"; 
 
-            // 3. 构造 4 字母唯一代码: [家族] + [动力] + [调节] + [感知] 
             const finalCode = family + M + R + P;
             document.getElementById('result-code').innerText = finalCode;
 
-            // 4. 文本库组件 (部分展示，建议后期通过后端数据库调用全量文案) [cite: 93, 122]
             const baseInfo = {
-                "C": { name: "Commander", cn: "指挥官", totem: "狮子", vibe: "领袖感、力量、掌控", oneLiner: "你是混乱中的风暴眼，直觉是你最锋利的武器。" },
-                "M": { name: "Mastermind", cn: "策划家", totem: "猫头鹰", vibe: "智力感、精密、神秘", oneLiner: "你是球场上的棋手，总能比对手多算三步。" },
-                "A": { name: "Assassin", cn: "刺客", totem: "猎豹", vibe: "速度感、爆发、锐利", oneLiner: "你是为终结而生的利刃，眼中只有猎物。" },
-                "P": { name: "Practitioner", cn: "实践者", totem: "老鹰", vibe: "平衡感、极简、专注", oneLiner: "你是追求完美的艺术家，每一次动作都是教科书。" }
+                "C": { name: "Commander", cn: "指挥官", totem: "狮子", vibe: "力量、掌控", oneLiner: "你是混乱中的风暴眼，直觉是你最锋利的武器 [cite: 94]。" },
+                "M": { name: "Mastermind", cn: "策划家", totem: "猫头鹰", vibe: "精密、神秘", oneLiner: "你是球场上的棋手，总能比对手多算三步 [cite: 103]。" },
+                "A": { name: "Assassin", cn: "刺客", totem: "猎豹", vibe: "速度、锐利", oneLiner: "你是为终结而生的利刃，眼中只有猎物 [cite: 110]。" },
+                "P": { name: "Practitioner", cn: "实践者", totem: "老鹰", vibe: "平衡、专注", oneLiner: "你是追求完美的艺术家，每一次动作都是教科书 [cite: 117]。" }
             };
 
             const familyData = baseInfo[family];
-            const variantName = (M === "E") ? (family === "C" ? "将军 (General)" : family === "M" ? "宗师 (Grandmaster)" : family === "A" ? "统治者 (Dominator)" : "偶像 (Icon)") : familyData.cn;
+            // 角色动态命名逻辑 [cite: 58, 90]
+            const variantName = (M === "E") ? (family === "C" ? "将军" : family === "M" ? "宗师" : family === "A" ? "统治者" : "偶像") : familyData.cn;
             const regPrefix = (R === "S") ? "冷面" : "激情";
             const percSuffix = (P === "V") ? "视觉型" : "动觉型";
 
@@ -168,9 +174,9 @@
             document.getElementById('result-name-en').innerText = `The ${(R === "S" ? "Stoic" : "Fiery")} ${familyData.name} (${P})`;
             document.getElementById('one-liner').innerText = familyData.oneLiner;
             
-            // 视觉逻辑展示 [cite: 71, 78]
-            document.getElementById('totem-desc').innerText = `[核心图腾: ${familyData.totem}] [背景颜色: ${(R === 'S' ? '蓝色' : '红色')}] [核心符号: ${(M === 'T' ? '齿轮' : '皇冠')}] [边框: ${(P === 'V' ? '实线' : '虚线')}]`;
-            document.getElementById('character-desc').innerText = `[核心气质: ${familyData.vibe}] 采用去道具化设计，通过极简素体 (Silhouette) 演绎角色的动作张力。`;
+            // 视觉信号逻辑映射 [cite: 73-76]
+            document.getElementById('totem-desc').innerText = `[核心图腾: ${familyData.totem}] [背景颜色: ${(R === 'S' ? '蓝色 (Stoic)' : '红色 (Fiery)')}] [核心符号: ${(M === 'T' ? '齿轮 (Task)' : '皇冠 (Ego)')}] [边框样式: ${(P === 'V' ? '实线 (Visual)' : '虚线 (Kinesthetic)')}]`;
+            document.getElementById('character-desc').innerText = `[核心气质: ${familyData.vibe}] 遵循“去道具化”设计策略，通过极简素体表现家族气质 [cite: 65, 78]。`;
         }
     </script>
 </body>
