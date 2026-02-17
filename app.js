@@ -1,10 +1,11 @@
-/* --- APB CORE ENGINE v2.0 (i18n FULL VERSION) --- */
+/* --- APB CORE ENGINE v2.0 (Ultimate Edition: i18n + Profile + Deep Content) --- */
 
-let currentLang = 'zh'; // 默认语言
+let currentLang = 'zh';
 let currentStep = 0;
 let userAnswers = [];
+let userProfile = { gender: '', sport: '' };
 
-// 1. 界面翻译字典 (UI Dictionary)
+// 1. 界面通用翻译 (UI Dictionary)
 const translations = {
     zh: {
         langBtn: "English",
@@ -13,6 +14,12 @@ const translations = {
         continueBtn: "继续测评",
         restartBtn: "重新开始",
         startBtn: "开始专业测评",
+        genderLabel: "选择性别",
+        male: "男",
+        female: "女",
+        sportLabel: "你的主项 (可输入)",
+        sportPlaceholder: "例如：网球, 足球, 综合格斗...",
+        alertGender: "请先选择性别",
         box1Title: "竞技认知重构",
         box1Desc: "摒弃通用性格测试，基于运动控制理论精准提取感知通道、注意焦点、视野广度等 5 项核心表现变量。",
         box2Title: "高效精密评估",
@@ -41,6 +48,12 @@ const translations = {
         continueBtn: "Continue",
         restartBtn: "Restart",
         startBtn: "Start Elite Assessment",
+        genderLabel: "Select Gender",
+        male: "Male",
+        female: "Female",
+        sportLabel: "Your Sport (Type in)",
+        sportPlaceholder: "e.g., Tennis, Soccer, MMA...",
+        alertGender: "Please select a gender first",
         box1Title: "Cognitive Reconstruction",
         box1Desc: "Move beyond general personality tests. Extract 5 key performance variables based on Motor Control Theory.",
         box2Title: "Precision Assessment",
@@ -64,7 +77,7 @@ const translations = {
     }
 };
 
-// 2. 完整 16 题题库 (Question Bank)
+// 2. 双语题库 (Bilingual Question Bank)
 const questions = [
     { dim: "A", 
       zh: { q: "比赛中，你更倾向于监控全场的空档与跑位，还是死盯对位球员？", a: "监控全场", b: "死盯对位" },
@@ -132,51 +145,38 @@ const questions = [
       valA: "V", valB: "K" }
 ];
 
-// 3. 初始化与事件监听 (Initialization)
+// 3. 初始化 (Initialization)
 window.onload = function() {
     try {
-        updateUI(); // 立即渲染首页文字
-        
-        // 检查存档
+        updateUI(); 
         const saved = localStorage.getItem('apb_progress');
         if (saved) {
+            const data = JSON.parse(saved);
+            if(data.profile) {
+                userProfile = data.profile;
+                if(userProfile.gender) setGender(userProfile.gender);
+                if(userProfile.sport) document.getElementById('sport-input').value = userProfile.sport;
+            }
             document.getElementById('continue-box').classList.remove('hidden');
-            document.getElementById('start-btn').classList.add('hidden');
+            document.getElementById('start-btn').innerText = translations[currentLang].continueBtn; 
         }
     } catch (e) {
-        console.error("Initialization error:", e);
+        console.error("Init Error:", e);
     }
 };
 
-// 4. 语言切换逻辑 (Language Toggle)
+// 4. 语言与档案功能 (Profile & Language)
 function toggleLang() {
     currentLang = (currentLang === 'zh') ? 'en' : 'zh';
     updateUI();
-    // 如果正在答题，重新渲染当前题目
-    if (!document.getElementById('quiz-page').classList.contains('hidden')) {
-        renderQuestion();
-    }
-    // 如果在确认页，刷新确认页文字
-    if (!document.getElementById('confirm-page').classList.contains('hidden')) {
-        const t = translations[currentLang];
-        document.getElementById('confirm-title').innerText = t.confirmTitle;
-        document.getElementById('confirm-desc').innerText = t.confirmDesc;
-        document.getElementById('reveal-btn').innerText = t.revealBtn;
-        document.getElementById('confirm-back-btn').innerText = t.confirmBack;
-    }
-    // 如果在结果页，刷新结果页（重新计算并填充）
+    if (!document.getElementById('quiz-page').classList.contains('hidden')) renderQuestion();
     if (!document.getElementById('result-page').classList.contains('hidden')) {
-        // 简单处理：如果切换语言，重新触发一次结果展示逻辑即可更新文字
-        // 注意：这里假设 userAnswers 还在
         if(userAnswers.length > 0) showFinalResult();
     }
 }
 
-// 5. 更新界面文字 (Update UI)
 function updateUI() {
     const t = translations[currentLang];
-    
-    // 安全更新：先检查元素是否存在
     const setTxt = (id, txt) => {
         const el = document.getElementById(id);
         if (el) el.innerText = txt;
@@ -189,15 +189,52 @@ function updateUI() {
     setTxt('restart-btn', t.restartBtn);
     setTxt('start-btn', t.startBtn);
     
+    setTxt('gender-label', t.genderLabel);
+    setTxt('label-male', t.male);
+    setTxt('label-female', t.female);
+    setTxt('sport-label', t.sportLabel);
+    document.getElementById('sport-input').placeholder = t.sportPlaceholder;
+
     setTxt('box1-title', t.box1Title);
     setTxt('box1-desc', t.box1Desc);
     setTxt('box2-title', t.box2Title);
     setTxt('box2-desc', t.box2Desc);
     setTxt('box3-title', t.box3Title);
     setTxt('box3-desc', t.box3Desc);
+    
+    setTxt('confirm-title', t.confirmTitle);
+    setTxt('confirm-desc', t.confirmDesc);
+    setTxt('reveal-btn', t.revealBtn);
+    setTxt('confirm-back-btn', t.confirmBack);
+    
+    setTxt('identity-title', t.identityTitle);
+    setTxt('xfactor-title', t.xfactorTitle);
+    setTxt('advice-title', t.adviceTitle);
+    setTxt('mot-label', t.motLabel);
+    setTxt('reg-label', t.regLabel);
+    setTxt('lrn-label', t.lrnLabel);
+    setTxt('purchase-btn', t.purchaseBtn);
 }
 
-// 6. 测评流程逻辑 (Quiz Logic)
+function setGender(g) {
+    userProfile.gender = g;
+    document.getElementById('btn-male').classList.remove('gender-btn-active-m');
+    document.getElementById('btn-female').classList.remove('gender-btn-active-f');
+    if (g === 'M') document.getElementById('btn-male').classList.add('gender-btn-active-m');
+    if (g === 'F') document.getElementById('btn-female').classList.add('gender-btn-active-f');
+}
+
+function validateAndStart() {
+    if (!userProfile.gender) {
+        alert(translations[currentLang].alertGender);
+        return;
+    }
+    const sportInput = document.getElementById('sport-input').value;
+    userProfile.sport = sportInput.trim() || "Athlete"; 
+    startQuiz();
+}
+
+// 5. 核心测试逻辑 (Quiz Engine)
 function startQuiz() {
     document.getElementById('home-page').classList.add('hidden');
     document.getElementById('quiz-page').classList.remove('hidden');
@@ -207,7 +244,7 @@ function startQuiz() {
 function renderQuestion() {
     const q = questions[currentStep];
     const t = translations[currentLang];
-    const qContent = q[currentLang]; // 获取当前语言的题目内容
+    const qContent = q[currentLang];
     
     document.getElementById('progress-text').innerText = `${t.questionLabel} ${currentStep + 1} / 16`;
     document.getElementById('progress-bar').style.width = `${((currentStep + 1) / 16) * 100}%`;
@@ -225,26 +262,18 @@ function renderQuestion() {
 function handleSelect(dim, val) {
     userAnswers[currentStep] = { dim, val };
     currentStep++;
-    // 存档
-    localStorage.setItem('apb_progress', JSON.stringify({ step: currentStep, answers: userAnswers }));
+    localStorage.setItem('apb_progress', JSON.stringify({ step: currentStep, answers: userAnswers, profile: userProfile }));
     
-    if (currentStep < 16) {
-        renderQuestion(); 
-    } else {
-        showConfirmPage();
-    }
+    if (currentStep < 16) renderQuestion(); 
+    else showConfirmPage();
 }
 
-function goBack() { 
-    currentStep--; 
-    renderQuestion(); 
-}
+function goBack() { currentStep--; renderQuestion(); }
 
 function showConfirmPage() {
     const t = translations[currentLang];
     document.getElementById('quiz-page').classList.add('hidden');
     document.getElementById('confirm-page').classList.remove('hidden');
-    
     document.getElementById('confirm-title').innerText = t.confirmTitle;
     document.getElementById('confirm-desc').innerText = t.confirmDesc;
     document.getElementById('reveal-btn').innerText = t.revealBtn;
@@ -260,187 +289,128 @@ function goBackToLast() {
 
 function clearAndStart() { 
     localStorage.removeItem('apb_progress'); 
-    currentStep = 0;
+    userProfile = { gender: '', sport: '' };
+    currentStep = 0; 
     userAnswers = [];
     location.reload(); 
 }
 
-function loadSavedQuiz() { 
-    const data = JSON.parse(localStorage.getItem('apb_progress')); 
-    if(data) {
-        userAnswers = data.answers; 
-        currentStep = data.step; 
-        document.getElementById('continue-box').classList.add('hidden'); 
-        startQuiz(); 
-    }
-}
-
-// 7. 结果计算与展示 (Result Calculation)
+// 6. 结果生成与深度内容 (Result & Content DB)
 function showFinalResult() {
     localStorage.removeItem('apb_progress');
     document.getElementById('confirm-page').classList.add('hidden');
     document.getElementById('result-page').classList.remove('hidden');
 
+    // 计算逻辑
     const getMaj = (dim) => {
         const arr = userAnswers.filter(a => a.dim === dim).map(a => a.val);
         if(arr.length === 0) return ""; 
         return arr.reduce((a, b, i, arr) => (arr.filter(v => v === a).length >= arr.filter(v => v === b).length ? a : b));
     };
 
-    const fA = getMaj('A'); 
-    const fC = getMaj('C'); 
-    const fM = getMaj('M'); 
-    const fR = getMaj('R'); 
-    const fP = getMaj('P');
-
-    let base = "";
-    if (fA === 'B' && fC === 'E') base = "C";
-    else if (fA === 'B' && fC === 'I') base = "M";
-    else if (fA === 'N' && fC === 'E') base = "A";
-    else if (fA === 'N' && fC === 'I') base = "P";
-
+    const fA = getMaj('A'); const fC = getMaj('C'); const fM = getMaj('M'); const fR = getMaj('R'); const fP = getMaj('P');
+    let base = (fA === 'B' && fC === 'E') ? "C" : (fA === 'B' && fC === 'I') ? "M" : (fA === 'N' && fC === 'E') ? "A" : "P";
     document.getElementById('result-code').innerText = base + fM + fR + fP;
 
-    /* --- Bilingual Content Database (Full) --- */
+    // 显示档案
+    const genderText = userProfile.gender === 'M' ? (currentLang==='zh'?'男':'MALE') : (currentLang==='zh'?'女':'FEMALE');
+    const sportText = userProfile.sport.toUpperCase();
+    document.getElementById('user-profile-display').innerText = `${genderText} | ${sportText}`;
+
+    // 完整双语内容数据库 (Full Bilingual Content DB)
     const db = {
         C: { 
             zh: { 
                 name: "Commander", cn: "指挥官", v: "将军", 
                 team: "[场上将军]: 你负责用想象力撕开防线，你的传球和调度是队伍的进攻号角。", 
                 solo: "[控场大师]: 你打的不是球，是空间。你擅长阅读对手意图，用节奏变化掌控全场。", 
-                clutch: "上帝视角: 当全场因压力而视野变窄时，你看得更宽了。你看见了时间流动的缝隙。", 
+                clutch: "上帝视角: 当全场因压力而视野变窄时，你看得更宽了。你看见了时间流动的缝隙，凭借本能送出致命一击。", 
                 krypt: "直觉陷阱: 轻视细节。你容易因过度自信而尝试不需要的高难度动作，导致低级失误。",
                 motT: "求道者: 渴望超越昨天的自己，掌握新技能比赢球更兴奋。",
                 motE: "传奇者: 渴望荣耀，关键时刻挺身而出成为英雄。",
-                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏音乐让自己'热'起来。",
-                regR: "需降温: 神经系统易'过热'，建议赛前独处、深呼吸保持冷静。",
+                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏重金属音乐、大声吼叫，让自己'热'起来。",
+                regR: "需降温: 神经系统天生敏感易'过热'，建议赛前戴降噪耳机、独处、深呼吸保持冷静。",
                 lrnV: "视觉型: 建议多看战术板和录像，脑中建立图像比听教练说更有效。",
                 lrnK: "动觉型: 建议以赛代练，通过肌肉反馈和重复实操建立记忆。"
             },
             en: { 
                 name: "Commander", cn: "Commander", v: "General", 
-                team: "[Field General]: You tear defenses with imagination. Your passing dictates the attack.", 
-                solo: "[Control Master]: You don't play the ball; you play space. You master the tempo.", 
-                clutch: "God's Eye: When others tunnel vision, you see wider. You see the gaps in time.", 
-                krypt: "Intuition Trap: Overconfidence. You might try unnecessary high-risk plays.",
+                team: "[Field General]: You tear defenses apart with imagination. Your passing and scheduling are the attacking bugle call of the team.", 
+                solo: "[Control Master]: You don't play the ball; you play space. You master the opponent's intentions and control the tempo.", 
+                clutch: "God's Eye: When pressure gives others tunnel vision, yours widens. You see the gaps in time and deliver a fatal blow by instinct.", 
+                krypt: "Intuition Trap: Disregarding details. Overconfidence may lead you to attempt unnecessary high-difficulty plays, causing turnovers.",
                 motT: "The Seeker: Motivated by mastery and self-improvement rather than just winning.",
                 motE: "The Legend: Motivated by glory and being the hero in big moments.",
-                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music/activity before games.",
-                regR: "Cool Down Needed: High sensitivity. Needs solitude and breathing to calm down.",
-                lrnV: "Visual Learner: Learns best by watching videos and diagrams.",
-                lrnK: "Kinesthetic Learner: Learns best by doing and feeling the movement."
+                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music or shouting to get 'hot' before the game.",
+                regR: "Cool Down Needed: High sensitivity. Needs solitude and deep breathing to calm down and focus.",
+                lrnV: "Visual Learner: Learns best by watching videos and diagrams to build mental images.",
+                lrnK: "Kinesthetic Learner: Learns best by doing, sweating, and feeling the muscle feedback."
             }
         },
         M: { 
             zh: { 
                 name: "Mastermind", cn: "策划家", v: "宗师", 
-                team: "[战术架构师]: 你是队伍的大脑。你不仅看得到空档，还能计算出最佳的进攻线路。", 
+                team: "[战术架构师]: 你是队伍的大脑。你不仅看得到空档，还能计算出最佳的进攻线路和防守轮转。", 
                 solo: "[宗师]: 你在与对手下棋。你擅长拆解对手的动作模式，找出破绽并精准打击。", 
-                clutch: "将军 (Checkmate): 布局生效，你冷静地收割胜利。", 
-                krypt: "分析瘫痪: 想得太多会导致你动作僵硬，错失稍纵即逝的最佳时机。",
+                clutch: "将军 (Checkmate): 这不仅仅是运气。你在比赛前段布下的局终于生效，对手掉进了陷阱，你冷静地收割胜利。", 
+                krypt: "分析瘫痪: 思维过载。想得太多会导致你动作僵硬，错失稍纵即逝的最佳时机。",
                 motT: "求道者: 渴望超越昨天的自己，掌握新技能比赢球更兴奋。",
                 motE: "传奇者: 渴望荣耀，关键时刻挺身而出成为英雄。",
-                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏音乐让自己'热'起来。",
-                regR: "需降温: 神经系统易'过热'，建议赛前独处、深呼吸保持冷静。",
+                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏重金属音乐、大声吼叫，让自己'热'起来。",
+                regR: "需降温: 神经系统天生敏感易'过热'，建议赛前戴降噪耳机、独处、深呼吸保持冷静。",
                 lrnV: "视觉型: 建议多看战术板和录像，脑中建立图像比听教练说更有效。",
                 lrnK: "动觉型: 建议以赛代练，通过肌肉反馈和重复实操建立记忆。"
             },
             en: { 
                 name: "Mastermind", cn: "Mastermind", v: "Grandmaster", 
-                team: "[Tactical Architect]: You are the brain. You calculate the best routes and rotations.", 
-                solo: "[Grandmaster]: You play chess. You dismantle opponent patterns to find weakness.", 
-                clutch: "Checkmate: Your setup works, and you calmly harvest the victory.", 
-                krypt: "Analysis Paralysis: Overthinking leads to hesitation and missed windows.",
+                team: "[Tactical Architect]: You are the brain. You see gaps and calculate the optimal attacking routes and rotations.", 
+                solo: "[Grandmaster]: You play chess. You dismantle opponent patterns to find weakness and strike precisely.", 
+                clutch: "Checkmate: It's not luck. The trap you set earlier finally works, and you calmly harvest the victory.", 
+                krypt: "Analysis Paralysis: Mental overload. Overthinking leads to hesitation and missing the best window of opportunity.",
                 motT: "The Seeker: Motivated by mastery and self-improvement rather than just winning.",
                 motE: "The Legend: Motivated by glory and being the hero in big moments.",
-                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music/activity before games.",
-                regR: "Cool Down Needed: High sensitivity. Needs solitude and breathing to calm down.",
-                lrnV: "Visual Learner: Learns best by watching videos and diagrams.",
-                lrnK: "Kinesthetic Learner: Learns best by doing and feeling the movement."
+                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music or shouting to get 'hot' before the game.",
+                regR: "Cool Down Needed: High sensitivity. Needs solitude and deep breathing to calm down and focus.",
+                lrnV: "Visual Learner: Learns best by watching videos and diagrams to build mental images.",
+                lrnK: "Kinesthetic Learner: Learns best by doing, sweating, and feeling the muscle feedback."
             }
         },
         A: { 
             zh: { 
                 name: "Assassin", cn: "刺客", v: "统治者", 
-                team: "[突击手]: 你是战术尖刀。任务不是组织，而是屏蔽干扰，把球送进目标。", 
-                solo: "[猎手]: 你是一匹独狼。不需要花哨的布局，只需要比对手更快、更准、更狠。", 
-                clutch: "本能接管: 大脑一片空白，身体自动接管一切。看见目标 -> 解决目标。", 
-                krypt: "隧道视野: 极致的专注让你容易忽略处于更好位置的队友，或被对手针对。",
+                team: "[突击手]: 你是战术体系的尖刀。你的任务不是组织，而是屏蔽一切干扰，把那该死的球送进目标。", 
+                solo: "[猎手]: 你是一匹独狼。你不需要花哨的布局，你只需要比对手更快、更准、更狠。", 
+                clutch: "本能接管: 大脑一片空白，身体自动接管一切。你根本不记得动作细节，只记得：看见目标 -> 解决目标。", 
+                krypt: "隧道视野: 独狼陷阱。极致的专注让你容易忽略处于更好位置的队友，或被对手针对性防守锁死。",
                 motT: "求道者: 渴望超越昨天的自己，掌握新技能比赢球更兴奋。",
                 motE: "传奇者: 渴望荣耀，关键时刻挺身而出成为英雄。",
-                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏音乐让自己'热'起来。",
-                regR: "需降温: 神经系统易'过热'，建议赛前独处、深呼吸保持冷静。",
+                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏重金属音乐、大声吼叫，让自己'热'起来。",
+                regR: "需降温: 神经系统天生敏感易'过热'，建议赛前戴降噪耳机、独处、深呼吸保持冷静。",
                 lrnV: "视觉型: 建议多看战术板和录像，脑中建立图像比听教练说更有效。",
                 lrnK: "动觉型: 建议以赛代练，通过肌肉反馈和重复实操建立记忆。"
             },
             en: { 
                 name: "Assassin", cn: "Assassin", v: "Dominator", 
-                team: "[Striker]: You are the spearhead. Ignore noise, finish the target.", 
-                solo: "[Hunter]: A lone wolf. You just need to be faster, sharper, and tougher.", 
-                clutch: "Instinct Takeover: Mind goes blank, body takes over. See target -> Destroy target.", 
-                krypt: "Tunnel Vision: Extreme focus makes you miss teammates or get trapped.",
+                team: "[Striker]: You are the spearhead. Your job isn't to organize, but to block noise and finish the target.", 
+                solo: "[Hunter]: A lone wolf. You don't need fancy setups, you just need to be faster, sharper, and tougher.", 
+                clutch: "Instinct Takeover: Mind goes blank, body takes over. You don't remember details, just: See Target -> Destroy Target.", 
+                krypt: "Tunnel Vision: Extreme focus makes you miss open teammates or get trapped by targeted defense.",
                 motT: "The Seeker: Motivated by mastery and self-improvement rather than just winning.",
                 motE: "The Legend: Motivated by glory and being the hero in big moments.",
-                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music/activity before games.",
-                regR: "Cool Down Needed: High sensitivity. Needs solitude and breathing to calm down.",
-                lrnV: "Visual Learner: Learns best by watching videos and diagrams.",
-                lrnK: "Kinesthetic Learner: Learns best by doing and feeling the movement."
+                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music or shouting to get 'hot' before the game.",
+                regR: "Cool Down Needed: High sensitivity. Needs solitude and deep breathing to calm down and focus.",
+                lrnV: "Visual Learner: Learns best by watching videos and diagrams to build mental images.",
+                lrnK: "Kinesthetic Learner: Learns best by doing, sweating, and feeling the muscle feedback."
             }
         },
         P: { 
             zh: { 
                 name: "Practitioner", cn: "实践者", v: "偶像", 
-                team: "[专家]: 你是队伍基石。无论环境多么混乱，你总能提供最稳定、精密的输出。", 
-                solo: "[技术大师]: 你在和自己比赛。你追求动作的极致纯粹与零误差。", 
-                clutch: "绝对零度: 全场窒息的压力下，你进入绝对宁静，动作像机器一样完美。", 
-                krypt: "机械僵化: 对环境极度敏感，一旦节奏被打乱(如裁判/装备)，心态易崩盘。",
+                team: "[专家]: 你是队伍的基石。无论环境多么混乱，你总能提供最稳定、最精密的输出。", 
+                solo: "[技术大师]: 你在和自己比赛。你追求动作的极致纯粹与零误差，对手只是你的陪衬。", 
+                clutch: "绝对零度: 全场窒息的压力下，你进入了绝对宁静。心率平稳，动作像机器一样精准完美。", 
+                krypt: "机械僵化: 易碎品。你对环境极度敏感，一旦节奏被打乱(如裁判误判、装备问题)，心态易崩盘。",
                 motT: "求道者: 渴望超越昨天的自己，掌握新技能比赢球更兴奋。",
                 motE: "传奇者: 渴望荣耀，关键时刻挺身而出成为英雄。",
-                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏音乐让自己'热'起来。",
-                regR: "需降温: 神经系统易'过热'，建议赛前独处、深呼吸保持冷静。",
-                lrnV: "视觉型: 建议多看战术板和录像，脑中建立图像比听教练说更有效。",
-                lrnK: "动觉型: 建议以赛代练，通过肌肉反馈和重复实操建立记忆。"
-            },
-            en: { 
-                name: "Practitioner", cn: "Practitioner", v: "Icon", 
-                team: "[Specialist]: The foundation. You provide stable, precise output in chaos.", 
-                solo: "[Technician]: You compete with yourself. You seek zero-error purity.", 
-                clutch: "Absolute Zero: In suffocating pressure, you find silence. Machine-like precision.", 
-                krypt: "Mechanical Rigidity: Sensitive to environment. Disruption breaks your flow.",
-                motT: "The Seeker: Motivated by mastery and self-improvement rather than just winning.",
-                motE: "The Legend: Motivated by glory and being the hero in big moments.",
-                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music/activity before games.",
-                regR: "Cool Down Needed: High sensitivity. Needs solitude and breathing to calm down.",
-                lrnV: "Visual Learner: Learns best by watching videos and diagrams.",
-                lrnK: "Kinesthetic Learner: Learns best by doing and feeling the movement."
-            }
-        }
-    };
-
-    const t = translations[currentLang];
-    const d = db[base][currentLang];
-    const isEgo = (fM === "E");
-
-    // 填充结果页文案
-    document.getElementById('result-name-cn').innerText = (fR === "S" ? (currentLang==='zh'?"冷面":"Stoic ") : (currentLang==='zh'?"激情":"Fiery ")) + (isEgo ? d.v : d.cn);
-    document.getElementById('result-name-en').innerText = `The ${(fR === "S" ? "Stoic" : "Fiery")} ${(isEgo ? d.v : d.name)} (${fP})`;
-    document.getElementById('one-liner').innerText = t.oneLiner;
-    
-    document.getElementById('identity-title').innerText = t.identityTitle;
-    document.getElementById('team-context').innerText = d.team;
-    document.getElementById('solo-context').innerText = d.solo;
-    
-    document.getElementById('xfactor-title').innerText = t.xfactorTitle;
-    document.getElementById('clutch-moment').innerText = d.clutch;
-    document.getElementById('kryptonite').innerText = d.krypt;
-
-    document.getElementById('advice-title').innerText = t.adviceTitle;
-    document.getElementById('mot-label').innerText = t.motLabel;
-    document.getElementById('motivation-text').innerText = (fM === 'T') ? d.motT : d.motE;
-    document.getElementById('reg-label').innerText = t.regLabel;
-    document.getElementById('regulation-text').innerText = (fR === 'S') ? d.regS : d.regR;
-    document.getElementById('lrn-label').innerText = t.lrnLabel;
-    document.getElementById('learning-text').innerText = (fP === 'V') ? d.lrnV : d.lrnK;
-
-    document.getElementById('purchase-btn').innerText = t.purchaseBtn;
-}
+                regS: "需点火: 基础唤醒度较低，建议赛前听快节奏重金属音乐、大声吼叫，让自己'热'起来。",
+                regR: "需降温: 神经系统天生敏感易'
