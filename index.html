@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+、<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,7 @@
     <title>APB Elite | 运动员表现蓝图 v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-50 min-h-screen font-sans text-slate-900">
 
@@ -18,13 +19,49 @@
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
             <p id="home-subtitle" class="text-xl text-slate-300 mb-10 tracking-widest font-light uppercase"></p>
             
+            <div id="profile-section" class="bg-white/10 p-6 rounded-2xl border border-white/10 mb-8 w-full max-w-md backdrop-blur-sm">
+                
+                <div class="mb-6">
+                    <p id="gender-label" class="text-blue-300 text-sm font-bold mb-3 uppercase tracking-wide text-left"></p>
+                    <div class="flex gap-4">
+                        <button onclick="setGender('M')" id="btn-male" class="flex-1 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-mars text-blue-400 text-xl"></i>
+                            <span id="label-male">Male</span>
+                        </button>
+                        <button onclick="setGender('F')" id="btn-female" class="flex-1 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-venus text-pink-400 text-xl"></i>
+                            <span id="label-female">Female</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <p id="sport-label" class="text-blue-300 text-sm font-bold mb-3 uppercase tracking-wide text-left"></p>
+                    <div class="relative">
+                        <input type="text" id="sport-input" list="sports-list" class="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 transition" placeholder="...">
+                        <datalist id="sports-list">
+                            <option value="Basketball">
+                            <option value="Football / Soccer">
+                            <option value="Tennis">
+                            <option value="Swimming">
+                            <option value="Track & Field">
+                            <option value="Volleyball">
+                            <option value="Golf">
+                            <option value="Boxing / MMA">
+                            <option value="CrossFit">
+                            <option value="Badminton">
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+
             <div id="continue-box" class="hidden mb-10 bg-white/10 p-4 rounded-xl border border-white/20">
                 <p id="continue-msg" class="text-blue-300 mb-2"></p>
                 <button onclick="loadSavedQuiz()" id="continue-btn" class="bg-blue-400 text-white px-6 py-2 rounded-lg font-bold mr-4"></button>
                 <button onclick="clearAndStart()" id="restart-btn" class="text-slate-400 underline"></button>
             </div>
             
-            <button id="start-btn" onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95">
+            <button id="start-btn" onclick="validateAndStart()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                 </button>
 
             <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16 mt-10">
@@ -78,6 +115,7 @@
                 <h2 id="result-name-cn" class="text-4xl font-bold mb-2 text-blue-400"></h2>
                 <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-4"></h3>
                 <p id="one-liner" class="text-xl text-white/80 italic max-w-2xl mx-auto border-l-4 border-blue-500 pl-4"></p>
+                <p id="user-profile-display" class="text-slate-400 text-sm mt-4 uppercase tracking-widest"></p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6 mb-12">
