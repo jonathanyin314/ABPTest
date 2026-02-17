@@ -1,4 +1,4 @@
-/* --- APB VISUAL LOGIC v2.0 --- */
+、/* --- APB VISUAL LOGIC v2.0 --- */
 .hero-gradient { 
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); 
 }
@@ -24,4 +24,17 @@
 .option-btn:hover {
     border-color: #3b82f6;
     background-color: #eff6ff;
+}
+
+/* 档案设置 - 性别按钮激活状态 */
+.gender-btn-active-m {
+    background-color: rgba(59, 130, 246, 0.2) !important; /* Blue tint */
+    border-color: #3b82f6 !important;
+    font-weight: bold;
+}
+
+.gender-btn-active-f {
+    background-color: rgba(236, 72, 153, 0.2) !important; /* Pink tint */
+    border-color: #ec4899 !important;
+    font-weight: bold;
 }
