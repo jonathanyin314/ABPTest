@@ -1,15 +1,24 @@
-、/* --- APB VISUAL LOGIC v2.0 --- */
+/* --- APB VISUAL LOGIC v2.0 (Complete) --- */
+
+/* 1. 全局背景与渐变 (找回丢失的深蓝色背景) */
 .hero-gradient { 
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); 
+    /* 增加一个兜底颜色，防止渐变加载失败 */
+    background-color: #0f172a;
 }
 
-.hidden { display: none; }
+/* 2. 工具类 */
+.hidden { 
+    display: none !important; 
+}
 
+/* 3. 结果页图腾背景容器 */
 .totem-bg { 
     background: rgba(255, 255, 255, 0.05); 
     border: 1px dashed rgba(255, 255, 255, 0.2); 
 }
 
+/* 4. 选项按钮样式 */
 .option-btn {
     width: 100%;
     padding: 1.5rem;
@@ -18,23 +27,40 @@
     text-align: left;
     font-weight: 700;
     color: #334155;
+    background-color: white;
     transition: all 0.2s;
+    margin-bottom: 0.5rem; /* 增加一点间距 */
 }
 
 .option-btn:hover {
     border-color: #3b82f6;
     background-color: #eff6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* 档案设置 - 性别按钮激活状态 */
+.option-btn:active {
+    transform: translateY(0);
+}
+
+/* 5. 档案设置 - 性别按钮激活状态 (粉蓝高亮) */
 .gender-btn-active-m {
     background-color: rgba(59, 130, 246, 0.2) !important; /* Blue tint */
     border-color: #3b82f6 !important;
+    color: #60a5fa !important; /* Lighter blue text */
     font-weight: bold;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 
 .gender-btn-active-f {
     background-color: rgba(236, 72, 153, 0.2) !important; /* Pink tint */
     border-color: #ec4899 !important;
+    color: #f472b6 !important; /* Lighter pink text */
     font-weight: bold;
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+/* 6. 进度条容器 */
+#progress-bar {
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
