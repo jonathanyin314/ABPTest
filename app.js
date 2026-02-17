@@ -1,11 +1,13 @@
-/* --- APB CORE ENGINE v2.0 (Ultimate Edition: i18n + Profile + Deep Content) --- */
+/* --- APB CORE ENGINE v2.0 (Fixed & Complete) --- */
 
 let currentLang = 'zh';
 let currentStep = 0;
 let userAnswers = [];
 let userProfile = { gender: '', sport: '' };
 
-// 1. 界面通用翻译 (UI Dictionary)
+/* =========================================
+   1. 界面通用翻译 (UI Dictionary)
+   ========================================= */
 const translations = {
     zh: {
         langBtn: "English",
@@ -77,78 +79,36 @@ const translations = {
     }
 };
 
-// 2. 双语题库 (Bilingual Question Bank)
+/* =========================================
+   2. 双语题库 (Bilingual Question Bank)
+   ========================================= */
 const questions = [
-    { dim: "A", 
-      zh: { q: "比赛中，你更倾向于监控全场的空档与跑位，还是死盯对位球员？", a: "监控全场", b: "死盯对位" },
-      en: { q: "During a game, do you tend to monitor open spaces and movements across the field, or stay glued to your direct opponent?", a: "Monitor Field", b: "Stay Glued" },
-      valA: "B", valB: "N" },
-    { dim: "A", 
-      zh: { q: "当你持球时，你的第一直觉是寻找远端队友，还是寻找面前进攻点？", a: "寻找远端", b: "寻找面前" },
-      en: { q: "When in possession, is your first instinct to look for distant open teammates or find an immediate attack point?", a: "Distant Open", b: "Attack Point" },
-      valA: "B", valB: "N" },
-    { dim: "A", 
-      zh: { q: "面对突发反击，你更倾向于观察整体阵型，还是加速追赶球权？", a: "观察阵型", b: "追赶球权" },
-      en: { q: "Facing a sudden counter-attack, do you prefer observing the overall formation change or sprinting to chase the ball?", a: "Observe Formation", b: "Chase Ball" },
-      valA: "B", valB: "N" },
-    { dim: "C", 
-      zh: { q: "罚球或射门前，你脑海中更多是身体发力感，还是球的运行轨迹？", a: "身体发力感", b: "运行轨迹" },
-      en: { q: "Before a shot or free throw, is your mind more focused on internal body feel or the external ball trajectory?", a: "Body Feel", b: "Trajectory" },
-      valA: "I", valB: "E" },
-    { dim: "C", 
-      zh: { q: "执行技术动作时，你更关注核心收紧感，还是动作的落点精准度？", a: "核心收紧感", b: "落点精准度" },
-      en: { q: "Executing a skill, do you focus more on the internal core tension or the external accuracy of the result?", a: "Core Tension", b: "Accuracy" },
-      valA: "I", valB: "E" },
-    { dim: "C", 
-      zh: { q: "当教练给出指令，你第一反应是检查动作细节，还是看向战术位置？", a: "动作细节", b: "战术位置" },
-      en: { q: "When a coach gives a cue, is your first reaction to check your body mechanics or look at the tactical position?", a: "Body Mechanics", b: "Tactical Position" },
-      valA: "I", valB: "E" },
-    { dim: "C", 
-      zh: { q: "疲劳状态下，你倾向于通过呼吸节奏找回状态，还是寻找外部参考点？", a: "呼吸节奏", b: "外部参考点" },
-      en: { q: "Under fatigue, do you tend to regain focus via internal breathing rhythm or by finding an external reference point?", a: "Breathing Rhythm", b: "External Point" },
-      valA: "I", valB: "E" },
-    { dim: "M", 
-      zh: { q: "什么最能激发你的斗志？", a: "掌握一项新技能", b: "击败对手" },
-      en: { q: "What motivates you the most?", a: "Mastering a new skill", b: "Defeating an opponent" },
-      valA: "T", valB: "E" },
-    { dim: "M", 
-      zh: { q: "你最希望获得的头衔是？", a: "技术大师", b: "荣誉传奇" },
-      en: { q: "Which title do you desire most?", a: "The Master of Technique", b: "The Legend of Honors" },
-      valA: "T", valB: "E" },
-    { dim: "M", 
-      zh: { q: "面对高强度训练，你更在意？", a: "超越昨天的自己", b: "表现排名第一" },
-      en: { q: "In high-intensity training, do you care more about surpassing yourself or ranking first in the group?", a: "Surpassing Self", b: "Ranking First" },
-      valA: "T", valB: "E" },
-    { dim: "R", 
-      zh: { q: "面对关键失误，你的第一反应是？", a: "冷面专注", b: "情感释放" },
-      en: { q: "Faced with a critical error, is your first reaction to stay stoic or release emotion?", a: "Stay Stoic", b: "Release Emotion" },
-      valA: "S", valB: "R" },
-    { dim: "R", 
-      zh: { q: "状态火热时，你通常表现得？", a: "冷酷专注", b: "激情互动" },
-      en: { q: "When you are 'in the zone', do you appear more cold and focused or fiery and interactive?", a: "Cold & Focused", b: "Fiery & Interactive" },
-      valA: "S", valB: "R" },
-    { dim: "R", 
-      zh: { q: "面对裁判误判，你会？", a: "压抑情绪", b: "表达立场" },
-      en: { q: "Facing a bad call from the referee, do you suppress emotion or express your stance?", a: "Suppress Emotion", b: "Express Stance" },
-      valA: "S", valB: "R" },
-    { dim: "P", 
-      zh: { q: "学习新战术，你觉得哪种更高效？", a: "观看视频示范", b: "场上亲身体验" },
-      en: { q: "What is the most efficient way for you to learn a new tactic?", a: "Watch videos/demos", b: "On-field experience" },
-      valA: "V", valB: "K" },
-    { dim: "P", 
-      zh: { q: "记忆最深的赛场瞬间通常是？", a: "视觉画面", b: "肌肉发力感" },
-      en: { q: "Your most vivid game memories are usually...", a: "Visual images", b: "Muscle sensations" },
-      valA: "V", valB: "K" },
-    { dim: "P", 
-      zh: { q: "教练讲解时，你更喜欢？", a: "看战术板箭头", b: "听描述后模仿" },
-      en: { q: "During a briefing, do you prefer looking at arrows on a board or listening and mimicking?", a: "Arrows on Board", b: "Listen & Mimic" },
-      valA: "V", valB: "K" }
+    { dim: "A", zh: { q: "比赛中，你更倾向于监控全场的空档与跑位，还是死盯对位球员？", a: "监控全场", b: "死盯对位" }, en: { q: "During a game, do you tend to monitor open spaces and movements across the field, or stay glued to your direct opponent?", a: "Monitor Field", b: "Stay Glued" }, valA: "B", valB: "N" },
+    { dim: "A", zh: { q: "当你持球时，你的第一直觉是寻找远端队友，还是寻找面前进攻点？", a: "寻找远端", b: "寻找面前" }, en: { q: "When in possession, is your first instinct to look for distant open teammates or find an immediate attack point?", a: "Distant Open", b: "Attack Point" }, valA: "B", valB: "N" },
+    { dim: "A", zh: { q: "面对突发反击，你更倾向于观察整体阵型，还是加速追赶球权？", a: "观察阵型", b: "追赶球权" }, en: { q: "Facing a sudden counter-attack, do you prefer observing the overall formation change or sprinting to chase the ball?", a: "Observe Formation", b: "Chase Ball" }, valA: "B", valB: "N" },
+    { dim: "C", zh: { q: "罚球或射门前，你脑海中更多是身体发力感，还是球的运行轨迹？", a: "身体发力感", b: "运行轨迹" }, en: { q: "Before a shot or free throw, is your mind more focused on internal body feel or the external ball trajectory?", a: "Body Feel", b: "Trajectory" }, valA: "I", valB: "E" },
+    { dim: "C", zh: { q: "执行技术动作时，你更关注核心收紧感，还是动作的落点精准度？", a: "核心收紧感", b: "落点精准度" }, en: { q: "Executing a skill, do you focus more on the internal core tension or the external accuracy of the result?", a: "Core Tension", b: "Accuracy" }, valA: "I", valB: "E" },
+    { dim: "C", zh: { q: "当教练给出指令，你第一反应是检查动作细节，还是看向战术位置？", a: "动作细节", b: "战术位置" }, en: { q: "When a coach gives a cue, is your first reaction to check your body mechanics or look at the tactical position?", a: "Body Mechanics", b: "Tactical Position" }, valA: "I", valB: "E" },
+    { dim: "C", zh: { q: "疲劳状态下，你倾向于通过呼吸节奏找回状态，还是寻找外部参考点？", a: "呼吸节奏", b: "外部参考点" }, en: { q: "Under fatigue, do you tend to regain focus via internal breathing rhythm or by finding an external reference point?", a: "Breathing Rhythm", b: "External Point" }, valA: "I", valB: "E" },
+    { dim: "M", zh: { q: "什么最能激发你的斗志？", a: "掌握一项新技能", b: "击败对手" }, en: { q: "What motivates you the most?", a: "Mastering a new skill", b: "Defeating an opponent" }, valA: "T", valB: "E" },
+    { dim: "M", zh: { q: "你最希望获得的头衔是？", a: "技术大师", b: "荣誉传奇" }, en: { q: "Which title do you desire most?", a: "The Master of Technique", b: "The Legend of Honors" }, valA: "T", valB: "E" },
+    { dim: "M", zh: { q: "面对高强度训练，你更在意？", a: "超越昨天的自己", b: "表现排名第一" }, en: { q: "In high-intensity training, do you care more about surpassing yourself or ranking first in the group?", a: "Surpassing Self", b: "Ranking First" }, valA: "T", valB: "E" },
+    { dim: "R", zh: { q: "面对关键失误，你的第一反应是？", a: "冷面专注", b: "情感释放" }, en: { q: "Faced with a critical error, is your first reaction to stay stoic or release emotion?", a: "Stay Stoic", b: "Release Emotion" }, valA: "S", valB: "R" },
+    { dim: "R", zh: { q: "状态火热时，你通常表现得？", a: "冷酷专注", b: "激情互动" }, en: { q: "When you are 'in the zone', do you appear more cold and focused or fiery and interactive?", a: "Cold & Focused", b: "Fiery & Interactive" }, valA: "S", valB: "R" },
+    { dim: "R", zh: { q: "面对裁判误判，你会？", a: "压抑情绪", b: "表达立场" }, en: { q: "Facing a bad call from the referee, do you suppress emotion or express your stance?", a: "Suppress Emotion", b: "Express Stance" }, valA: "S", valB: "R" },
+    { dim: "P", zh: { q: "学习新战术，你觉得哪种更高效？", a: "观看视频示范", b: "场上亲身体验" }, en: { q: "What is the most efficient way for you to learn a new tactic?", a: "Watch videos/demos", b: "On-field experience" }, valA: "V", valB: "K" },
+    { dim: "P", zh: { q: "记忆最深的赛场瞬间通常是？", a: "视觉画面", b: "肌肉发力感" }, en: { q: "Your most vivid game memories are usually...", a: "Visual images", b: "Muscle sensations" }, valA: "V", valB: "K" },
+    { dim: "P", zh: { q: "教练讲解时，你更喜欢？", a: "看战术板箭头", b: "听描述后模仿" }, en: { q: "During a briefing, do you prefer looking at arrows on a board or listening and mimicking?", a: "Arrows on Board", b: "Listen & Mimic" }, valA: "V", valB: "K" }
 ];
 
-// 3. 初始化 (Initialization)
+/* =========================================
+   3. 初始化与事件监听
+   ========================================= */
 window.onload = function() {
     try {
-        updateUI(); 
+        updateUI(); // 立即渲染首页文字
+        
+        // 检查存档
         const saved = localStorage.getItem('apb_progress');
         if (saved) {
             const data = JSON.parse(saved);
@@ -165,7 +125,9 @@ window.onload = function() {
     }
 };
 
-// 4. 语言与档案功能 (Profile & Language)
+/* =========================================
+   4. 语言与档案功能
+   ========================================= */
 function toggleLang() {
     currentLang = (currentLang === 'zh') ? 'en' : 'zh';
     updateUI();
@@ -189,12 +151,15 @@ function updateUI() {
     setTxt('restart-btn', t.restartBtn);
     setTxt('start-btn', t.startBtn);
     
+    // 档案标签
     setTxt('gender-label', t.genderLabel);
     setTxt('label-male', t.male);
     setTxt('label-female', t.female);
     setTxt('sport-label', t.sportLabel);
-    document.getElementById('sport-input').placeholder = t.sportPlaceholder;
+    const spInput = document.getElementById('sport-input');
+    if(spInput) spInput.placeholder = t.sportPlaceholder;
 
+    // 科学底座
     setTxt('box1-title', t.box1Title);
     setTxt('box1-desc', t.box1Desc);
     setTxt('box2-title', t.box2Title);
@@ -202,6 +167,7 @@ function updateUI() {
     setTxt('box3-title', t.box3Title);
     setTxt('box3-desc', t.box3Desc);
     
+    // 结果页
     setTxt('confirm-title', t.confirmTitle);
     setTxt('confirm-desc', t.confirmDesc);
     setTxt('reveal-btn', t.revealBtn);
@@ -218,10 +184,14 @@ function updateUI() {
 
 function setGender(g) {
     userProfile.gender = g;
-    document.getElementById('btn-male').classList.remove('gender-btn-active-m');
-    document.getElementById('btn-female').classList.remove('gender-btn-active-f');
-    if (g === 'M') document.getElementById('btn-male').classList.add('gender-btn-active-m');
-    if (g === 'F') document.getElementById('btn-female').classList.add('gender-btn-active-f');
+    const btnM = document.getElementById('btn-male');
+    const btnF = document.getElementById('btn-female');
+    if(btnM && btnF) {
+        btnM.classList.remove('gender-btn-active-m');
+        btnF.classList.remove('gender-btn-active-f');
+        if (g === 'M') btnM.classList.add('gender-btn-active-m');
+        if (g === 'F') btnF.classList.add('gender-btn-active-f');
+    }
 }
 
 function validateAndStart() {
@@ -234,7 +204,9 @@ function validateAndStart() {
     startQuiz();
 }
 
-// 5. 核心测试逻辑 (Quiz Engine)
+/* =========================================
+   5. 核心测试逻辑 (Quiz Engine)
+   ========================================= */
 function startQuiz() {
     document.getElementById('home-page').classList.add('hidden');
     document.getElementById('quiz-page').classList.remove('hidden');
@@ -262,7 +234,11 @@ function renderQuestion() {
 function handleSelect(dim, val) {
     userAnswers[currentStep] = { dim, val };
     currentStep++;
-    localStorage.setItem('apb_progress', JSON.stringify({ step: currentStep, answers: userAnswers, profile: userProfile }));
+    localStorage.setItem('apb_progress', JSON.stringify({ 
+        step: currentStep, 
+        answers: userAnswers,
+        profile: userProfile 
+    }));
     
     if (currentStep < 16) renderQuestion(); 
     else showConfirmPage();
@@ -295,13 +271,14 @@ function clearAndStart() {
     location.reload(); 
 }
 
-// 6. 结果生成与深度内容 (Result & Content DB)
+/* =========================================
+   6. 结果生成与深度内容 (Result & Content DB)
+   ========================================= */
 function showFinalResult() {
     localStorage.removeItem('apb_progress');
     document.getElementById('confirm-page').classList.add('hidden');
     document.getElementById('result-page').classList.remove('hidden');
 
-    // 计算逻辑
     const getMaj = (dim) => {
         const arr = userAnswers.filter(a => a.dim === dim).map(a => a.val);
         if(arr.length === 0) return ""; 
@@ -314,10 +291,10 @@ function showFinalResult() {
 
     // 显示档案
     const genderText = userProfile.gender === 'M' ? (currentLang==='zh'?'男':'MALE') : (currentLang==='zh'?'女':'FEMALE');
-    const sportText = userProfile.sport.toUpperCase();
+    const sportText = userProfile.sport ? userProfile.sport.toUpperCase() : "ATHLETE";
     document.getElementById('user-profile-display').innerText = `${genderText} | ${sportText}`;
 
-    // 完整双语内容数据库 (Full Bilingual Content DB)
+    // 完整内容数据库
     const db = {
         C: { 
             zh: { 
@@ -413,4 +390,49 @@ function showFinalResult() {
                 motT: "求道者: 渴望超越昨天的自己，掌握新技能比赢球更兴奋。",
                 motE: "传奇者: 渴望荣耀，关键时刻挺身而出成为英雄。",
                 regS: "需点火: 基础唤醒度较低，建议赛前听快节奏重金属音乐、大声吼叫，让自己'热'起来。",
-                regR: "需降温: 神经系统天生敏感易'
+                regR: "需降温: 神经系统天生敏感易'过热'，建议赛前戴降噪耳机、独处、深呼吸保持冷静。",
+                lrnV: "视觉型: 建议多看战术板和录像，脑中建立图像比听教练说更有效。",
+                lrnK: "动觉型: 建议以赛代练，通过肌肉反馈和重复实操建立记忆。"
+            },
+            en: { 
+                name: "Practitioner", cn: "Practitioner", v: "Icon", 
+                team: "[Specialist]: The foundation. In chaos, you provide the most stable, precise output.", 
+                solo: "[Technician]: You compete with yourself. You seek zero-error purity. The opponent is just background.", 
+                clutch: "Absolute Zero: In suffocating pressure, you find absolute silence. Heart rate steady, movement machine-like.", 
+                krypt: "Mechanical Rigidity: Fragile to disruption. Highly sensitive to environment; bad calls or gear issues can break your flow.",
+                motT: "The Seeker: Motivated by mastery and self-improvement rather than just winning.",
+                motE: "The Legend: Motivated by glory and being the hero in big moments.",
+                regS: "Ignition Needed: Low arousal baseline. Needs high-tempo music or shouting to get 'hot' before the game.",
+                regR: "Cool Down Needed: High sensitivity. Needs solitude and deep breathing to calm down and focus.",
+                lrnV: "Visual Learner: Learns best by watching videos and diagrams to build mental images.",
+                lrnK: "Kinesthetic Learner: Learns best by doing, sweating, and feeling the muscle feedback."
+            }
+        }
+    };
+
+    const t = translations[currentLang];
+    const d = db[base][currentLang];
+    const isEgo = (fM === "E");
+
+    document.getElementById('result-name-cn').innerText = (fR === "S" ? (currentLang==='zh'?"冷面":"Stoic ") : (currentLang==='zh'?"激情":"Fiery ")) + (isEgo ? d.v : d.cn);
+    document.getElementById('result-name-en').innerText = `The ${(fR === "S" ? "Stoic" : "Fiery")} ${(isEgo ? d.v : d.name)} (${fP})`;
+    document.getElementById('one-liner').innerText = t.oneLiner;
+    
+    document.getElementById('identity-title').innerText = t.identityTitle;
+    document.getElementById('team-context').innerText = d.team;
+    document.getElementById('solo-context').innerText = d.solo;
+    
+    document.getElementById('xfactor-title').innerText = t.xfactorTitle;
+    document.getElementById('clutch-moment').innerText = d.clutch;
+    document.getElementById('kryptonite').innerText = d.krypt;
+
+    document.getElementById('advice-title').innerText = t.adviceTitle;
+    document.getElementById('mot-label').innerText = t.motLabel;
+    document.getElementById('motivation-text').innerText = (fM === 'T') ? d.motT : d.motE;
+    document.getElementById('reg-label').innerText = t.regLabel;
+    document.getElementById('regulation-text').innerText = (fR === 'S') ? d.regS : d.regR;
+    document.getElementById('lrn-label').innerText = t.lrnLabel;
+    document.getElementById('learning-text').innerText = (fP === 'V') ? d.lrnV : d.lrnK;
+
+    document.getElementById('purchase-btn').innerText = t.purchaseBtn;
+}
