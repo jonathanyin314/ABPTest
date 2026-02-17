@@ -9,34 +9,36 @@
 </head>
 <body class="bg-slate-50 min-h-screen font-sans text-slate-900">
 
+    <div class="fixed top-6 right-6 z-50">
+        <button onclick="toggleLang()" id="lang-btn" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full font-bold text-sm hover:bg-white/20 transition">English</button>
+    </div>
+
     <main id="home-page" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4">
         <div class="max-w-4xl py-20">
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
-            <p class="text-xl text-slate-300 mb-10 uppercase tracking-widest font-light">Athlete Performance Blueprint</p>
+            <p id="home-subtitle" class="text-xl text-slate-300 mb-10 tracking-widest font-light uppercase">Athlete Performance Blueprint</p>
             
             <div id="continue-box" class="hidden mb-10 bg-white/10 p-4 rounded-xl border border-white/20">
-                <p class="text-blue-300 mb-2">检测到未完成的测试记录</p>
-                <button onclick="loadSavedQuiz()" class="bg-blue-400 text-white px-6 py-2 rounded-lg font-bold mr-4">继续测评</button>
-                <button onclick="clearAndStart()" class="text-slate-400 underline">重新开始</button>
+                <p id="continue-msg" class="text-blue-300 mb-2"></p>
+                <button onclick="loadSavedQuiz()" id="continue-btn" class="bg-blue-400 text-white px-6 py-2 rounded-lg font-bold mr-4"></button>
+                <button onclick="clearAndStart()" id="restart-btn" class="text-slate-400 underline"></button>
             </div>
             
             <button id="start-btn" onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95">
-                开始专业测评
-            </button>
+                </button>
 
             <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16 mt-10">
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">竞技认知重构</h4>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-2">摒弃通用性格测试，基于运动控制理论精准提取感知通道、注意焦点、视野广度等 5 项核心表现变量。</p>
+                    <h4 id="box1-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box1-desc" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">高效精密评估</h4>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-2">采用精简的 16 题评估模型，在分钟级时间内完成深度扫描，有效避免测评疲劳并保护竞技专注力。</p>
-                    <p class="text-slate-400 text-xs">内置“置信度加权”机制，确保极速测评下的高科学信度。</p>
+                    <h4 id="box2-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box2-desc" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">去病理化成长架构</h4>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-2">结果均以“天赋与风格”呈现。通过 Trait 与 Pulse 双模组数据，消除评估防御，优化教练沟通效率。</p>
+                    <h4 id="box3-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box3-desc" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
             </div>
         </div>
@@ -45,10 +47,10 @@
     <main id="quiz-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
         <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8">
             <div class="mb-10 text-center">
-                <span id="progress-text" class="text-sm font-bold text-slate-400 uppercase tracking-widest">Question 1 / 16</span>
+                <span id="progress-text" class="text-sm font-bold text-slate-400 uppercase tracking-widest"></span>
                 <div class="h-1 bg-slate-100 rounded-full mt-4"><div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500 w-0"></div></div>
             </div>
-            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug">正在加载...</h2>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug"></h2>
             <div id="options-container" class="grid gap-4 mb-8"></div>
             <div id="back-nav" class="text-center"></div>
         </div>
@@ -56,10 +58,10 @@
 
     <main id="confirm-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10 text-center">
         <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-10">
-            <h2 class="text-3xl font-black text-slate-800 mb-8">测评已完成</h2>
-            <p class="text-slate-500 mb-8 leading-relaxed text-lg">你准备好揭晓你的 <b>APB 竞技人格代码</b>了吗？</p>
-            <button onclick="showFinalResult()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-blue-700 transition">揭晓我的代码</button>
-            <button onclick="goBackToLast()" class="mt-4 text-slate-400 font-bold">返回修改最后一题</button>
+            <h2 id="confirm-title" class="text-3xl font-black text-slate-800 mb-8"></h2>
+            <p id="confirm-desc" class="text-slate-500 mb-8 leading-relaxed text-lg"></p>
+            <button onclick="showFinalResult()" id="reveal-btn" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-blue-700 transition"></button>
+            <button onclick="goBackToLast()" id="confirm-back-btn" class="mt-4 text-slate-400 font-bold"></button>
         </div>
     </main>
 
@@ -70,20 +72,22 @@
                     <p class="text-white/20 text-xl font-bold uppercase tracking-widest">Visual Asset Placeholder</p>
                 </div>
             </div>
+
             <div class="text-center mb-12">
                 <div id="result-code" class="text-7xl md:text-9xl font-black mb-4 tracking-tighter"></div>
                 <h2 id="result-name-cn" class="text-4xl font-bold mb-2 text-blue-400"></h2>
                 <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-4"></h3>
                 <p id="one-liner" class="text-xl text-white/80 italic max-w-2xl mx-auto border-l-4 border-blue-500 pl-4"></p>
             </div>
+
             <div class="grid md:grid-cols-2 gap-6 mb-12">
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">赛场身份 (Identity)</h4>
+                    <h4 id="identity-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
                     <p id="team-context" class="text-slate-300 text-sm leading-relaxed mb-4"></p>
                     <p id="solo-context" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">绝杀因子 (The X-Factor)</h4>
+                    <h4 id="xfactor-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
                     <div class="mb-4">
                         <span class="text-xs font-bold text-green-400 uppercase">[Clutch Moment]</span>
                         <p id="clutch-moment" class="text-slate-300 text-sm leading-relaxed mt-1"></p>
@@ -94,15 +98,15 @@
                     </div>
                 </div>
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10 md:col-span-2">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">专家级优化建议</h4>
+                    <h4 id="advice-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
                     <div class="grid md:grid-cols-3 gap-6">
-                        <div><span class="text-xs font-bold text-slate-400 uppercase">动力引擎</span><p id="motivation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
-                        <div><span class="text-xs font-bold text-slate-400 uppercase">唤醒调节</span><p id="regulation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
-                        <div><span class="text-xs font-bold text-slate-400 uppercase">感知学习</span><p id="learning-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                        <div><span id="mot-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="motivation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                        <div><span id="reg-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="regulation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                        <div><span id="lrn-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="learning-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
                     </div>
                 </div>
             </div>
-            <button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl">解锁完整干预报告 (￥19.9)</button>
+            <button id="purchase-btn" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl"></button>
         </div>
     </main>
 
