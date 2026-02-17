@@ -13,25 +13,30 @@
         <div class="max-w-4xl py-20">
             <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
             <p class="text-xl text-slate-300 mb-10 uppercase tracking-widest font-light">Athlete Performance Blueprint</p>
+            
             <div id="continue-box" class="hidden mb-10 bg-white/10 p-4 rounded-xl border border-white/20">
                 <p class="text-blue-300 mb-2">检测到未完成的测试记录</p>
                 <button onclick="loadSavedQuiz()" class="bg-blue-400 text-white px-6 py-2 rounded-lg font-bold mr-4">继续测评</button>
                 <button onclick="clearAndStart()" class="text-slate-400 underline">重新开始</button>
             </div>
-            <button id="start-btn" onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95">开始专业测评</button>
+            
+            <button id="start-btn" onclick="startQuiz()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95">
+                开始专业测评
+            </button>
 
             <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16 mt-10">
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-2">竞技认知重构</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">摒弃通用性格测试，精准测量影响表现的 5 个关键变量：感知、注意、指令、动力与调节。</p>
+                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">竞技认知重构</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-2">摒弃通用性格测试，基于运动控制理论精准提取感知通道、注意焦点、视野广度等 5 项核心表现变量。</p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-2">16-Item 商业模型</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">采用精简题量最大化用户留存，结合置信度加权机制，确保在分钟级评估中具备极高信度。</p>
+                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">高效精密评估</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-2">采用精简的 16 题评估模型，在分钟级时间内完成深度扫描，有效避免测评疲劳并保护竞技专注力。</p>
+                    <p class="text-slate-400 text-xs">内置“置信度加权”机制，确保极速测评下的高科学信度。</p>
                 </div>
                 <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-2">去病理化原则</h4>
-                    <p class="text-slate-400 text-sm leading-relaxed">结果均以“天赋/风格”呈现，旨在优化教练沟通并释放运动员的本能优势。</p>
+                    <h4 class="text-blue-400 font-bold mb-3 tracking-wide">去病理化成长架构</h4>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-2">结果均以“天赋与风格”呈现。通过 Trait 与 Pulse 双模组数据，消除评估防御，优化教练沟通效率。</p>
                 </div>
             </div>
         </div>
@@ -63,29 +68,22 @@
             <div class="w-full aspect-square md:aspect-video bg-white/5 border-2 border-dashed border-white/20 rounded-3xl mb-10 flex items-center justify-center overflow-hidden">
                 <div class="text-center">
                     <p class="text-white/20 text-xl font-bold uppercase tracking-widest">Visual Asset Placeholder</p>
-                    <p class="text-white/10 text-sm mt-2">(此处将放置 4 大底座家族立绘与背景图腾)</p>
                 </div>
             </div>
-
             <div class="text-center mb-12">
                 <div id="result-code" class="text-7xl md:text-9xl font-black mb-4 tracking-tighter"></div>
                 <h2 id="result-name-cn" class="text-4xl font-bold mb-2 text-blue-400"></h2>
                 <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-4"></h3>
                 <p id="one-liner" class="text-xl text-white/80 italic max-w-2xl mx-auto border-l-4 border-blue-500 pl-4"></p>
             </div>
-
             <div class="grid md:grid-cols-2 gap-6 mb-12">
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">
-                        <span class="mr-2">◈</span> 赛场身份 (Identity)
-                    </h4>
+                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">赛场身份 (Identity)</h4>
                     <p id="team-context" class="text-slate-300 text-sm leading-relaxed mb-4"></p>
                     <p id="solo-context" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">
-                        <span class="mr-2">⚡</span> 绝杀因子 (The X-Factor)
-                    </h4>
+                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">绝杀因子 (The X-Factor)</h4>
                     <div class="mb-4">
                         <span class="text-xs font-bold text-green-400 uppercase">[Clutch Moment]</span>
                         <p id="clutch-moment" class="text-slate-300 text-sm leading-relaxed mt-1"></p>
@@ -96,27 +94,15 @@
                     </div>
                 </div>
                 <div class="bg-white/5 p-8 rounded-3xl border border-white/10 md:col-span-2">
-                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">
-                        <span class="mr-2">⚙</span> 专家级优化建议 (APB Guidelines)
-                    </h4>
+                    <h4 class="text-blue-400 font-bold mb-4 flex items-center">专家级优化建议</h4>
                     <div class="grid md:grid-cols-3 gap-6">
-                        <div>
-                            <span class="text-xs font-bold text-slate-400 uppercase">动力引擎 (Motivation)</span>
-                            <p id="motivation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold text-slate-400 uppercase">唤醒调节 (Regulation)</span>
-                            <p id="regulation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold text-slate-400 uppercase">感知学习 (Learning)</span>
-                            <p id="learning-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p>
-                        </div>
+                        <div><span class="text-xs font-bold text-slate-400 uppercase">动力引擎</span><p id="motivation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                        <div><span class="text-xs font-bold text-slate-400 uppercase">唤醒调节</span><p id="regulation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                        <div><span class="text-xs font-bold text-slate-400 uppercase">感知学习</span><p id="learning-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
                     </div>
                 </div>
             </div>
-
-            <button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl">解锁 15 页完整干预报告 (￥19.9)</button>
+            <button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl">解锁完整干预报告 (￥19.9)</button>
         </div>
     </main>
 
