@@ -3,146 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APB Elite | 运动员表现蓝图 v2.0</title>
+    <title>APB Elite | 运动员表现蓝图 v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+<body class="bg-slate-950 min-h-screen font-sans text-slate-200 selection:bg-blue-500 selection:text-white">
 
     <div class="fixed top-6 right-6 z-50">
-        <button onclick="toggleLang()" id="lang-btn" class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full font-bold text-sm hover:bg-white/20 transition">English</button>
+        <button onclick="toggleLang()" id="lang-btn" class="bg-slate-800/50 backdrop-blur-md border border-slate-600 text-slate-300 px-4 py-2 rounded-full font-bold text-sm hover:bg-blue-500/20 hover:border-blue-400 hover:text-white transition">English</button>
     </div>
 
     <main id="home-page" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4">
         <div class="max-w-4xl py-20">
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-6">APB ELITE</h1>
-            <p id="home-subtitle" class="text-xl text-slate-300 mb-10 tracking-widest font-light uppercase"></p>
+            <h1 class="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-4 drop-shadow-[0_0_15px_rgba(56,189,248,0.3)] tracking-tighter">APB ELITE</h1>
+            <p id="home-subtitle" class="text-xl text-blue-200/70 mb-12 tracking-[0.2em] font-light uppercase"></p>
             
-            <div id="profile-section" class="bg-white/10 p-6 rounded-2xl border border-white/10 mb-8 w-full max-w-md backdrop-blur-sm mx-auto">
+            <div id="profile-section" class="bg-slate-900/60 p-8 rounded-3xl border border-blue-500/20 mb-8 w-full max-w-md backdrop-blur-xl mx-auto shadow-[0_0_40px_rgba(30,58,138,0.3)]">
                 <div class="mb-6">
-                    <p id="gender-label" class="text-blue-300 text-sm font-bold mb-3 uppercase tracking-wide text-left"></p>
+                    <p id="gender-label" class="text-cyan-400 text-sm font-bold mb-3 uppercase tracking-wider text-left"></p>
                     <div class="flex gap-4">
-                        <button onclick="setGender('M')" id="btn-male" class="flex-1 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-mars text-blue-400 text-xl"></i>
-                            <span id="label-male">Male</span>
+                        <button onclick="setGender('M')" id="btn-male" class="flex-1 py-3 rounded-xl border border-slate-700 text-slate-400 hover:border-blue-500 hover:text-blue-400 transition flex items-center justify-center gap-2 bg-slate-800/50">
+                            <i class="fa-solid fa-mars text-xl"></i><span id="label-male">Male</span>
                         </button>
-                        <button onclick="setGender('F')" id="btn-female" class="flex-1 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-venus text-pink-400 text-xl"></i>
-                            <span id="label-female">Female</span>
+                        <button onclick="setGender('F')" id="btn-female" class="flex-1 py-3 rounded-xl border border-slate-700 text-slate-400 hover:border-pink-500 hover:text-pink-400 transition flex items-center justify-center gap-2 bg-slate-800/50">
+                            <i class="fa-solid fa-venus text-xl"></i><span id="label-female">Female</span>
                         </button>
                     </div>
                 </div>
                 <div class="mb-2">
-                    <p id="sport-label" class="text-blue-300 text-sm font-bold mb-3 uppercase tracking-wide text-left"></p>
+                    <p id="sport-label" class="text-cyan-400 text-sm font-bold mb-3 uppercase tracking-wider text-left"></p>
                     <div class="relative">
-                        <input type="text" id="sport-input" list="sports-list" class="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 transition" placeholder="...">
+                        <input type="text" id="sport-input" list="sports-list" class="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 transition" placeholder="...">
                         <datalist id="sports-list">
-                            <option value="Basketball">
-                            <option value="Football / Soccer">
-                            <option value="Tennis">
-                            <option value="Swimming">
-                            <option value="Track & Field">
-                            <option value="Volleyball">
-                            <option value="Golf">
-                            <option value="Boxing / MMA">
-                            <option value="CrossFit">
-                            <option value="Badminton">
+                            <option value="Basketball"><option value="Football / Soccer"><option value="Tennis"><option value="Swimming"><option value="Track & Field"><option value="Volleyball"><option value="Golf"><option value="Boxing / MMA"><option value="CrossFit"><option value="Badminton">
                         </datalist>
                     </div>
                 </div>
             </div>
-            <div id="continue-box" class="hidden mb-10 bg-white/10 p-4 rounded-xl border border-white/20">
+
+            <div id="continue-box" class="hidden mb-10 bg-slate-800/80 p-4 rounded-xl border border-blue-500/30">
                 <p id="continue-msg" class="text-blue-300 mb-2"></p>
-                <button onclick="loadSavedQuiz()" id="continue-btn" class="bg-blue-400 text-white px-6 py-2 rounded-lg font-bold mr-4"></button>
-                <button onclick="clearAndStart()" id="restart-btn" class="text-slate-400 underline"></button>
+                <button onclick="loadSavedQuiz()" id="continue-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold mr-4 hover:bg-blue-500 transition shadow-[0_0_10px_rgba(37,99,235,0.5)]"></button>
+                <button onclick="clearAndStart()" id="restart-btn" class="text-slate-400 hover:text-white underline transition"></button>
             </div>
             
-            <button id="start-btn" onclick="validateAndStart()" class="bg-blue-500 text-white text-xl px-12 py-5 rounded-2xl font-bold shadow-2xl transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button id="start-btn" onclick="validateAndStart()" class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xl px-14 py-5 rounded-2xl font-black shadow-[0_0_20px_rgba(6,182,212,0.4)] transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-cyan-300/30">
                 </button>
 
-            <div class="grid md:grid-cols-3 gap-6 text-left border-t border-white/10 pt-16 mt-10">
-                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 id="box1-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
-                    <p id="box1-desc" class="text-slate-300 text-sm leading-relaxed"></p>
+            <div class="grid md:grid-cols-3 gap-6 text-left border-t border-slate-800 pt-16 mt-16 max-w-5xl mx-auto">
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition backdrop-blur-sm">
+                    <h4 id="box1-title" class="text-cyan-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box1-desc" class="text-slate-400 text-sm leading-relaxed"></p>
                 </div>
-                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 id="box2-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
-                    <p id="box2-desc" class="text-slate-300 text-sm leading-relaxed"></p>
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition backdrop-blur-sm">
+                    <h4 id="box2-title" class="text-cyan-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box2-desc" class="text-slate-400 text-sm leading-relaxed"></p>
                 </div>
-                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                    <h4 id="box3-title" class="text-blue-400 font-bold mb-3 tracking-wide"></h4>
-                    <p id="box3-desc" class="text-slate-300 text-sm leading-relaxed"></p>
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition backdrop-blur-sm">
+                    <h4 id="box3-title" class="text-cyan-400 font-bold mb-3 tracking-wide"></h4>
+                    <p id="box3-desc" class="text-slate-400 text-sm leading-relaxed"></p>
                 </div>
             </div>
         </div>
     </main>
 
-    <main id="quiz-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10">
-        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8">
+    <main id="quiz-page" class="hidden min-h-screen hero-gradient flex items-center justify-center px-4 py-10">
+        <div class="max-w-2xl w-full bg-slate-900/80 backdrop-blur-2xl border border-slate-700/50 rounded-[2rem] shadow-[0_0_50px_rgba(15,23,42,0.8)] p-8 md:p-12">
             <div class="mb-10 text-center">
-                <span id="progress-text" class="text-sm font-bold text-slate-400 uppercase tracking-widest"></span>
-                <div class="h-1 bg-slate-100 rounded-full mt-4"><div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500 w-0"></div></div>
+                <span id="progress-text" class="text-xs font-black text-cyan-500 uppercase tracking-[0.2em]"></span>
+                <div class="h-1.5 bg-slate-800 rounded-full mt-5 overflow-hidden"><div id="progress-bar" class="h-full w-0"></div></div>
             </div>
-            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-10 leading-snug"></h2>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-white mb-10 leading-snug tracking-wide"></h2>
             <div id="options-container" class="grid gap-4 mb-8"></div>
             <div id="back-nav" class="text-center"></div>
         </div>
     </main>
 
-    <main id="confirm-page" class="hidden min-h-screen flex items-center justify-center px-4 py-10 text-center">
-        <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-10">
-            <h2 id="confirm-title" class="text-3xl font-black text-slate-800 mb-8"></h2>
-            <p id="confirm-desc" class="text-slate-500 mb-8 leading-relaxed text-lg"></p>
-            <button onclick="showFinalResult()" id="reveal-btn" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-xl shadow-xl hover:bg-blue-700 transition"></button>
-            <button onclick="goBackToLast()" id="confirm-back-btn" class="mt-4 text-slate-400 font-bold"></button>
+    <main id="confirm-page" class="hidden min-h-screen hero-gradient flex items-center justify-center px-4 py-10 text-center">
+        <div class="max-w-xl w-full bg-slate-900/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[2rem] shadow-[0_0_50px_rgba(6,182,212,0.15)] p-12">
+            <h2 id="confirm-title" class="text-4xl font-black text-white mb-6 tracking-tight"></h2>
+            <p id="confirm-desc" class="text-slate-400 mb-10 leading-relaxed text-lg"></p>
+            <button onclick="showFinalResult()" id="reveal-btn" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-5 rounded-2xl font-black text-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 transition"></button>
+            <button onclick="goBackToLast()" id="confirm-back-btn" class="mt-6 text-slate-500 hover:text-cyan-400 font-bold transition"></button>
         </div>
     </main>
 
-    <main id="result-page" class="hidden min-h-screen bg-slate-900 text-white py-12 px-4">
+    <main id="result-page" class="hidden min-h-screen bg-slate-950 text-white py-12 px-4 selection:bg-cyan-500 selection:text-white">
         <div class="max-w-4xl mx-auto">
-            <div class="w-full aspect-square md:aspect-video bg-white/5 border-2 border-dashed border-white/20 rounded-3xl mb-10 flex items-center justify-center overflow-hidden">
-                <div class="text-center">
-                    <p class="text-white/20 text-xl font-bold uppercase tracking-widest">Visual Asset Placeholder</p>
+            <div class="w-full aspect-square md:aspect-video bg-slate-900/50 border border-slate-800 rounded-3xl mb-12 flex items-center justify-center overflow-hidden shadow-2xl relative">
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent"></div>
+                <div class="text-center relative z-10">
+                    <p class="text-slate-600 text-xl font-black uppercase tracking-[0.3em]">Visual Asset Placeholder</p>
                 </div>
             </div>
 
-            <div class="text-center mb-12">
-                <div id="result-code" class="text-7xl md:text-9xl font-black mb-4 tracking-tighter"></div>
-                <h2 id="result-name-cn" class="text-4xl font-bold mb-2 text-blue-400"></h2>
-                <h3 id="result-name-en" class="text-xl text-slate-400 italic mb-4"></h3>
-                <p id="one-liner" class="text-xl text-white/80 italic max-w-2xl mx-auto border-l-4 border-blue-500 pl-4"></p>
-                
-                <p id="user-profile-display" class="text-slate-400 text-sm mt-4 uppercase tracking-widest font-bold"></p>
+            <div class="text-center mb-16">
+                <div id="result-code" class="text-7xl md:text-9xl font-black mb-2 tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 drop-shadow-2xl"></div>
+                <h2 id="result-name-cn" class="text-4xl font-black mb-2 text-cyan-400 tracking-wide drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]"></h2>
+                <h3 id="result-name-en" class="text-xl text-slate-500 italic mb-6 font-serif"></h3>
+                <p id="one-liner" class="text-xl text-slate-300 italic max-w-2xl mx-auto border-l-4 border-cyan-500 pl-5"></p>
+                <p id="user-profile-display" class="inline-block mt-8 px-6 py-2 bg-slate-800/80 border border-slate-700 rounded-full text-cyan-300 text-sm uppercase tracking-widest font-bold shadow-lg"></p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6 mb-12">
-                <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 id="identity-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
+            <div class="grid md:grid-cols-2 gap-6 mb-16">
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                    <h4 id="identity-title" class="text-cyan-400 font-bold mb-5 flex items-center text-lg tracking-wide"></h4>
                     <p id="team-context" class="text-slate-300 text-sm leading-relaxed mb-4"></p>
-                    <p id="solo-context" class="text-slate-300 text-sm leading-relaxed mb-4"></p>
+                    <p id="solo-context" class="text-slate-300 text-sm leading-relaxed"></p>
                 </div>
-                <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                    <h4 id="xfactor-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
-                    <div class="mb-4">
-                        <span class="text-xs font-bold text-green-400 uppercase">[Clutch Moment]</span>
-                        <p id="clutch-moment" class="text-slate-300 text-sm leading-relaxed mt-1"></p>
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                    <h4 id="xfactor-title" class="text-cyan-400 font-bold mb-5 flex items-center text-lg tracking-wide"></h4>
+                    <div class="mb-5">
+                        <span class="inline-block px-2 py-1 bg-green-900/30 text-green-400 text-[10px] font-black uppercase rounded mb-2 border border-green-800/50">[Clutch Moment]</span>
+                        <p id="clutch-moment" class="text-slate-300 text-sm leading-relaxed"></p>
                     </div>
                     <div>
-                        <span class="text-xs font-bold text-red-400 uppercase">[Kryptonite]</span>
-                        <p id="kryptonite" class="text-slate-300 text-sm leading-relaxed mt-1"></p>
+                        <span class="inline-block px-2 py-1 bg-red-900/30 text-red-400 text-[10px] font-black uppercase rounded mb-2 border border-red-800/50">[Kryptonite]</span>
+                        <p id="kryptonite" class="text-slate-300 text-sm leading-relaxed"></p>
                     </div>
                 </div>
-                <div class="bg-white/5 p-8 rounded-3xl border border-white/10 md:col-span-2">
-                    <h4 id="advice-title" class="text-blue-400 font-bold mb-4 flex items-center"></h4>
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div><span id="mot-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="motivation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
-                        <div><span id="reg-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="regulation-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
-                        <div><span id="lrn-label" class="text-xs font-bold text-slate-400 uppercase"></span><p id="learning-text" class="text-slate-300 text-xs mt-2 leading-relaxed"></p></div>
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-xl md:col-span-2 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+                    <h4 id="advice-title" class="text-cyan-400 font-bold mb-6 flex items-center text-lg tracking-wide"></h4>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div><span id="mot-label" class="text-[11px] font-black text-slate-500 uppercase tracking-wider block mb-2"></span><p id="motivation-text" class="text-slate-300 text-sm leading-relaxed"></p></div>
+                        <div><span id="reg-label" class="text-[11px] font-black text-slate-500 uppercase tracking-wider block mb-2"></span><p id="regulation-text" class="text-slate-300 text-sm leading-relaxed"></p></div>
+                        <div><span id="lrn-label" class="text-[11px] font-black text-slate-500 uppercase tracking-wider block mb-2"></span><p id="learning-text" class="text-slate-300 text-sm leading-relaxed"></p></div>
                     </div>
                 </div>
             </div>
-            <button id="purchase-btn" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl shadow-xl"></button>
+            
+            <div class="relative max-w-lg mx-auto">
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-30"></div>
+                <button id="purchase-btn" class="relative w-full bg-slate-900 border border-slate-700 text-white py-6 rounded-2xl font-black text-xl hover:bg-slate-800 hover:border-cyan-400 transition-all duration-300"></button>
+            </div>
         </div>
     </main>
 
