@@ -218,8 +218,23 @@ function renderQuestion() {
     const t = translations[currentLang];
     const qContent = q[currentLang];
     
-    document.getElementById('progress-text').innerText = `${t.questionLabel} ${currentStep + 1} / 16`;
-    document.getElementById('progress-bar').style.width = `${((currentStep + 1) / 16) * 100}%`;
+    // 更新进度条和百分比
+    const progress = ((currentStep + 1) / 16) * 100;
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = `${progress}%`;
+    document.getElementById('progress-percent').innerText = `${Math.round(progress)}%`;
+    
+    // 更新维度指示器和颜色
+    const dimNames = {
+        zh: { 'A': 'Attention (视野注意力)', 'C': 'Command (指令偏好)', 'M': 'Motivation (动力引擎)', 'R': 'Regulation (唤醒调节)', 'P': 'Perception (感知通道)' },
+        en: { 'A': 'Attention (Focus)', 'C': 'Command (Preference)', 'M': 'Motivation (Engine)', 'R': 'Regulation (Arousal)', 'P': 'Perception (Channel)' }
+    };
+    document.getElementById('dim-indicator').innerText = dimNames[currentLang][q.dim] || 'SCANNING...';
+    
+    // 切换进度条颜色类
+    progressBar.className = 'h-full transition-all duration-700 ease-out'; // 重置
+    progressBar.classList.add(`dim-${q.dim}`);
+
     document.getElementById('question-text').innerText = qContent.q;
     
     document.getElementById('options-container').innerHTML = `
