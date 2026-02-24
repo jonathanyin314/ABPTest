@@ -218,37 +218,35 @@ function renderQuestion() {
     const t = translations[currentLang];
     const qContent = q[currentLang];
     
-    // 更新进度条和百分比
-    const progress = ((currentStep + 1) / 16) * 100;
+    // 1. 计算百分比
+    const percent = Math.round(((currentStep + 1) / 16) * 100);
+    
+    // 2. 更新上方扫描提示文案 (例如: "DIMENSION A | 1/16")
+    const dimText = currentLang === 'zh' ? `分析维度 ${q.dim} | ${currentStep + 1}/16` : `DIMENSION ${q.dim} | ${currentStep + 1}/16`;
+    document.getElementById('dim-indicator').innerText = dimText;
+    document.getElementById('progress-percent').innerText = `${percent}%`;
+    
+    // 3. 动态更新进度条长度和颜色
     const progressBar = document.getElementById('progress-bar');
-    progressBar.style.width = `${progress}%`;
-    document.getElementById('progress-percent').innerText = `${Math.round(progress)}%`;
+    progressBar.style.width = `${percent}%`;
+    progressBar.className = `h-full w-0 transition-all duration-700 ease-out dim-${q.dim}`; // 自动加上 dim-A, dim-C 等 class
     
-    // 更新维度指示器和颜色
-    const dimNames = {
-        zh: { 'A': 'Attention (视野注意力)', 'C': 'Command (指令偏好)', 'M': 'Motivation (动力引擎)', 'R': 'Regulation (唤醒调节)', 'P': 'Perception (感知通道)' },
-        en: { 'A': 'Attention (Focus)', 'C': 'Command (Preference)', 'M': 'Motivation (Engine)', 'R': 'Regulation (Arousal)', 'P': 'Perception (Channel)' }
-    };
-    document.getElementById('dim-indicator').innerText = dimNames[currentLang][q.dim] || 'SCANNING...';
-    
-    // 切换进度条颜色类
-    progressBar.className = 'h-full transition-all duration-700 ease-out'; // 重置
-    progressBar.classList.add(`dim-${q.dim}`);
-
+    // 4. 渲染题目和选项
     document.getElementById('question-text').innerText = qContent.q;
-    
     document.getElementById('options-container').innerHTML = `
         <button onclick="handleSelect('${q.dim}', '${q.valA}')" class="option-btn">A. ${qContent.a}</button>
         <button onclick="handleSelect('${q.dim}', '${q.valB}')" class="option-btn">B. ${qContent.b}</button>
     `;
     
+    // 5. 渲染返回按钮
     const nav = document.getElementById('back-nav');
-    nav.innerHTML = currentStep > 0 ? `<button onclick="goBack()" class="mt-4 text-slate-400 underline hover:text-blue-500">${t.backBtn}</button>` : "";
+    nav.innerHTML = currentStep > 0 ? `<button onclick="goBack()" class="mt-5 text-slate-500 hover:text-cyan-400 underline font-bold transition tracking-wider text-sm">${t.backBtn}</button>` : "";
 }
 
 function handleSelect(dim, val) {
-    userAnswers[currentStep] = { dim, val };
+    userAnswers[currentStep] = { dim: dim, val: val };
     currentStep++;
+    
     localStorage.setItem('apb_progress', JSON.stringify({ 
         step: currentStep, 
         answers: userAnswers,
