@@ -1,45 +1,36 @@
-/* --- APB ELITE VISUAL LOGIC v3.0 (Dark Competitive Theme) --- */
+/* --- APB ELITE VISUAL LOGIC v3.0 (Complete Edition) --- */
 
-/* 1. 动态深渊背景 */
 .hero-gradient { 
     background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%); 
     background-color: #020617;
     background-attachment: fixed;
 }
 
-/* 2. 工具类 */
-.hidden { 
-    display: none !important; 
-}
+.hidden { display: none !important; }
 
-/* 3. 科技感选项按钮 (暗黑模式) */
 .option-btn {
     width: 100%;
     padding: 1.5rem;
-    background: rgba(30, 41, 59, 0.5); /* 半透明深灰蓝 */
-    border: 1px solid rgba(56, 189, 248, 0.2); /* 微弱的亮蓝边框 */
+    background: rgba(30, 41, 59, 0.5); 
+    border: 1px solid rgba(56, 189, 248, 0.2); 
     border-radius: 1.2rem;
     text-align: left;
     font-weight: 700;
-    color: #e2e8f0; /* 亮灰白色文字 */
+    color: #e2e8f0; 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
+    margin-bottom: 0.5rem;
 }
 
-/* 悬停时的“充能”发光效果 */
 .option-btn:hover {
     border-color: #38bdf8;
     background: rgba(14, 165, 233, 0.1);
     color: #ffffff;
-    transform: translateX(8px); /* 微微向右浮动，增加动感 */
+    transform: translateX(8px); 
     box-shadow: -4px 0 15px rgba(56, 189, 248, 0.4), inset 0 0 10px rgba(56, 189, 248, 0.1);
 }
+.option-btn:active { transform: scale(0.98); }
 
-.option-btn:active {
-    transform: scale(0.98);
-}
-
-/* 4. 档案设置 - 性别按钮激活状态 (暗黑专属调色) */
 .gender-btn-active-m {
     background-color: rgba(56, 189, 248, 0.15) !important; 
     border-color: #38bdf8 !important;
@@ -56,20 +47,21 @@
     box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
 }
 
-/* 5. 进度条科技发光 */
+/* --- 动态进度条平滑过渡与颜色 --- */
 #progress-bar {
-    box-shadow: 0 0 15px #3b82f6, 0 0 5px #60a5fa;
-    background: linear-gradient(90deg, #2563eb, #38bdf8);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, box-shadow 0.5s ease;
 }
 
-/* 6. 图腾背景 (结果页) */
+#progress-bar.dim-A { background: linear-gradient(90deg, #eab308, #facc15) !important; box-shadow: 0 0 15px rgba(234, 179, 8, 0.6) !important; } 
+#progress-bar.dim-C { background: linear-gradient(90deg, #10b981, #34d399) !important; box-shadow: 0 0 15px rgba(16, 185, 129, 0.6) !important; } 
+#progress-bar.dim-M { background: linear-gradient(90deg, #ef4444, #f87171) !important; box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; } 
+#progress-bar.dim-R { background: linear-gradient(90deg, #3b82f6, #60a5fa) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important; } 
+#progress-bar.dim-P { background: linear-gradient(90deg, #8b5cf6, #a78bfa) !important; box-shadow: 0 0 15px rgba(139, 92, 246, 0.6) !important; } 
+
 .totem-bg { 
     background: radial-gradient(circle at center, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 0.8) 100%);
     border: 1px solid rgba(56, 189, 248, 0.3); 
     box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
-/* 7. 输入框聚焦高亮 */
-input:focus {
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-}
+input:focus { box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
