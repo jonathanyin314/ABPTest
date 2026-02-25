@@ -15,7 +15,8 @@ const translations = {
         box3Title: "去病理化成长架构", box3Desc: "结果以天赋风格呈现。基于 Trait 与 Pulse 双模组数据，消除评估防御，优化教练沟通效率。",
         questionLabel: "分析维度", backBtn: "返回上一题", confirmTitle: "测评已完成", confirmDesc: "你准备好揭晓你的 APB 竞技人格代码了吗？",
         revealBtn: "揭晓我的代码", confirmBack: "返回修改最后一题", identityTitle: "◈ 赛场身份", xfactorTitle: "⚡ 绝杀因子",
-        adviceTitle: "⚙ 专家级优化建议", motLabel: "动力引擎", regLabel: "唤醒调节", lrnLabel: "感知学习", purchaseBtn: "获取完整报告", oneLiner: "不仅是性格，更是你的赛场基因。"
+        adviceTitle: "⚙ 专家级优化建议", motLabel: "动力引擎", regLabel: "唤醒调节", lrnLabel: "感知学习", purchaseBtn: "获取完整报告", oneLiner: "不仅是性格，更是你的赛场基因。",
+        downloadBtn: "保存专属结果海报", generatingBtn: "生成中..."
     },
     en: {
         langBtn: "中文", subtitle: "Athlete Performance Blueprint", continueMsg: "Unfinished assessment detected",
@@ -26,7 +27,8 @@ const translations = {
         box3Title: "Growth Architecture", box3Desc: "Results presented as 'talents'. Optimize coach communication and eliminate defensive bias.",
         questionLabel: "DIMENSION", backBtn: "Back", confirmTitle: "Assessment Complete", confirmDesc: "Are you ready to reveal your APB Athlete Archetype code?",
         revealBtn: "Reveal My Code", confirmBack: "Back to last question", identityTitle: "◈ Identity", xfactorTitle: "⚡ The X-Factor",
-        adviceTitle: "⚙ Expert Optimization Guidelines", motLabel: "Motivation", regLabel: "Regulation", lrnLabel: "Learning", purchaseBtn: "Unlock Full Report", oneLiner: "It's not just personality; it's your performance DNA."
+        adviceTitle: "⚙ Expert Optimization Guidelines", motLabel: "Motivation", regLabel: "Regulation", lrnLabel: "Learning", purchaseBtn: "Unlock Full Report", oneLiner: "It's not just personality; it's your performance DNA.",
+        downloadBtn: "Save Result Poster", generatingBtn: "Generating..."
     }
 };
 
@@ -227,3 +229,46 @@ function closePaymentModal() {
 
 // 点击背景关闭
 document.getElementById('payment-modal').addEventListener('click', function(e) { if (e.target === this) closePaymentModal(); });
+
+/* =========================================
+   9. 生成分享海报逻辑 (Task 4: html2canvas)
+   ========================================= */
+function generatePoster() {
+    const t = translations[currentLang];
+    const btn = document.getElementById('download-btn');
+    const btnText = document.getElementById('download-btn-text');
+    const originalText = btnText.innerText;
+    
+    // UI 反馈：按钮变成“生成中...”并禁用，防止用户狂点
+    btnText.innerText = t.generatingBtn || "Generating...";
+    btn.disabled = true;
+    btn.classList.add('opacity-50', 'cursor-not-allowed');
+    // 获取我们要截图的那个正方形区域
+    const posterArea = document.getElementById('poster-area');
+    const codeStr = document.getElementById('result-code').innerText;
+    
+    // 使用 html2canvas 引擎进行 DOM 截图
+    html2canvas(posterArea, {
+        scale: 2, // 提高 2 倍分辨率，让海报在手机上更清晰
+        backgroundColor: "#020617", // 强制使用深渊黑背景防止透明底报错
+        useCORS: true // 允许跨域加载字体或图片
+    }).then(canvas => {
+        // 创建一个隐藏的 a 标签用于触发下载
+        const link = document.createElement('a');
+        link.download = `APB-Elite-${codeStr}.png`; // 自动命名，如 APB-Elite-CTSV.png
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        // 恢复按钮状态
+        btnText.innerText = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }).catch(err => {
+        console.error("Poster generation failed:", err);
+        alert(currentLang === 'zh' ? "海报生成失败，请重试。" : "Generation failed, please try again.");
+        // 恢复按钮状态
+        btnText.innerText = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+    });
+}
