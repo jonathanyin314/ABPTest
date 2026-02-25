@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body class="bg-slate-950 min-h-screen font-sans text-slate-200 selection:bg-blue-500 selection:text-white">
 
@@ -95,12 +96,28 @@
                 </div>
             </div>
 
-            <div class="text-center mb-16">
-                <div id="result-code" class="text-7xl md:text-9xl font-black mb-2 tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-500 drop-shadow-2xl"></div>
-                <h2 id="result-name-cn" class="text-4xl font-black mb-2 text-cyan-400 tracking-wide drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]"></h2>
-                <h3 id="result-name-en" class="text-xl text-slate-500 italic mb-6 font-serif"></h3>
-                <p id="one-liner" class="text-xl text-slate-300 italic max-w-2xl mx-auto border-l-4 border-cyan-500 pl-5"></p>
-                <p id="user-profile-display" class="inline-block mt-8 px-6 py-2 bg-slate-800/80 border border-slate-700 rounded-full text-cyan-300 text-sm uppercase tracking-widest font-bold shadow-lg"></p>
+            <div id="poster-area" class="relative text-center mb-6 p-10 bg-slate-900 rounded-3xl overflow-hidden border border-slate-700 shadow-2xl mx-auto flex flex-col justify-center items-center" style="max-width: 400px; aspect-ratio: 1/1;">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-slate-900 to-slate-950 z-0"></div>
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400 z-10"></div>
+                
+                <div class="relative z-10 w-full">
+                    <p class="text-cyan-500 font-black tracking-[0.3em] text-[10px] mb-6 opacity-80 uppercase">APB Elite Archetype</p>
+                    <div id="result-code" class="text-7xl font-black mb-3 tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400 drop-shadow-lg"></div>
+                    <h2 id="result-name-cn" class="text-3xl font-black mb-1 text-cyan-400 tracking-wide drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]"></h2>
+                    <h3 id="result-name-en" class="text-sm text-slate-500 italic mb-6 font-serif"></h3>
+                    <p id="one-liner" class="text-sm text-slate-300 italic px-4 border-l-2 border-cyan-500 inline-block text-left mb-6"></p>
+                    <div class="w-full border-t border-slate-700/50 pt-4 mt-2">
+                        <p id="user-profile-display" class="text-slate-400 text-[10px] uppercase tracking-widest font-bold"></p>
+                    </div>
+                </div>
+                <div class="absolute bottom-3 left-0 right-0 text-center z-10">
+                    <p class="text-[9px] text-slate-600 tracking-widest uppercase">apb-elite.com</p>
+                </div>
+            </div>
+            <div class="flex justify-center mb-16">
+                <button onclick="generatePoster()" id="download-btn" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-2xl font-bold transition flex items-center gap-3 border border-slate-600 hover:border-cyan-400 shadow-[0_4px_20px_rgba(0,0,0,0.5)] active:scale-95">
+                    <i class="fa-solid fa-camera"></i> <span id="download-btn-text">保存专属结果海报</span>
+                </button>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6 mb-16">
