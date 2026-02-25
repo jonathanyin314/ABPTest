@@ -212,12 +212,24 @@ function showFinalResult() {
     document.getElementById('purchase-btn-text').innerText = t.purchaseBtn;
 }
 
-/* --- 支付弹窗逻辑 (Task 3) --- */
+/* --- 支付弹窗逻辑 (精简版：仅保留社会认同) --- */
 function openPaymentModal() {
     const modal = document.getElementById('payment-modal');
     const box = document.getElementById('payment-box');
     modal.classList.remove('hidden');
-    setTimeout(() => { modal.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+    
+    // 更新社会认同文字
+    const t = translations[currentLang];
+    const ticker = document.getElementById('social-proof-ticker');
+    const baseCount = 1482 + Math.floor(Math.random() * 50);
+    ticker.innerText = (currentLang === 'zh') 
+        ? `已有 ${baseCount} 位精英运动员获得报告` 
+        : `${baseCount} ATHLETES UNLOCKED THEIR REPORTS`;
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+        box.classList.add('scale-100');
+    }, 10);
 }
 
 function closePaymentModal() {
