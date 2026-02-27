@@ -327,9 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 }
             }
-            const t = translations[currentLang];
-            const el = document.getElementById('skin-detected');
-            if (el) el.innerText = activeSkin !== 'S0' ? `${t.detected}${activeSkin}` : '';
+            // 皮肤模组仅在后台生效，不显示给用户
         });
     }
 });
