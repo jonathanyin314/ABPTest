@@ -136,9 +136,9 @@ const masterQuestions = [
       valA: "V", valB: "K" },
 
     { id: 2, dim: "P", tag: "V/K", rapid: true,
-      zh: { S0: "你觉得自己今天"动作顺了"，通常是因为：" },
+      zh: { S0: '你觉得自己今天"动作顺了"，通常是因为：' },
       en: { S0: "When you feel 'in the zone' today, it's usually because:" },
-      a: "我看到了我的动作轨迹非常标准", b: "我感觉到发力的那个"阻力点"对了",
+      a: "我看到了我的动作轨迹非常标准", b: '我感觉到发力的那个"阻力点"对了',
       valA: "V", valB: "K" },
 
     { id: 3, dim: "P", tag: "V/K", rapid: false,
@@ -159,7 +159,7 @@ const masterQuestions = [
             S2: "在对抗中需要爆发力时，哪种指令更能帮你发力？",
             S5: "在瞬间爆发力动作中，哪种指令更能帮你发力？" },
       en: { S0: "When performing an explosive movement, which cue helps you more?" },
-      a: ""伸展你的关节"/"收缩你的肌肉"", b: ""把地面用力蹬开"/"撞破目标"",
+      a: '"伸展你的关节"/"收缩你的肌肉"', b: '"把地面用力蹬开"/"撞破目标"',
       valA: "Int", valB: "Ext" },
 
     { id: 5, dim: "C", tag: "Int/Ext", rapid: false,
@@ -171,7 +171,7 @@ const masterQuestions = [
     { id: 9, dim: "C", tag: "Int/Ext", rapid: false,
       zh: { S0: "在练习新动作时，你更喜欢教练说：" },
       en: { S0: "When practicing a new movement, you prefer your coach to say:" },
-      a: ""注意你的手肘角度和髋部旋转"", b: ""想象你在推开一堵墙"",
+      a: '"注意你的手肘角度和髋部旋转"', b: '"想象你在推开一堵墙"',
       valA: "Int", valB: "Ext" },
 
     // Part 3: Awareness [Broad/Narrow]
@@ -215,7 +215,7 @@ const masterQuestions = [
     { id: 15, dim: "M", tag: "T/E", rapid: false,
       zh: { S0: "在训练中，你最享受的时刻是：" },
       en: { S0: "In training, the moment you enjoy most is:" },
-      a: "终于突破了某个技术瓶颈，感觉动作"开窍"了", b: "在对抗练习中完胜了一个强劲的对手",
+      a: '终于突破了某个技术瓶颈，感觉动作"开窍"了', b: "在对抗练习中完胜了一个强劲的对手",
       valA: "Task", valB: "Ego" },
 
     // Part 5: Regulation [Stable/Reactive]
@@ -223,7 +223,7 @@ const masterQuestions = [
       zh: { S0: "进入最佳状态前，你通常需要：",
             S2: "马上就要上场了，进入最佳状态你需要：" },
       en: { S0: "Before entering your peak state, you usually need to:" },
-      a: ""升温"：听快歌、大喊，让自己兴奋起来", b: ""降温"：独处、深呼吸，让自己平静下来",
+      a: '"升温"：听快歌、大喊，让自己兴奋起来', b: '"降温"：独处、深呼吸，让自己平静下来',
       valA: "Reactive", valB: "Stable" },
 
     { id: 14, dim: "R", tag: "S/R", rapid: false,
@@ -250,7 +250,7 @@ const masterQuestions = [
             S2: "当动作出现偏差，你最信任哪种调整方式：",
             S7: "当动作精度出现偏差，你最信任哪种调整方式：" },
       en: { S0: "When your movement goes off, which correction method do you trust most:" },
-      a: "参照录像回放中的视觉误差", b: "寻找肌肉发力时的那股"劲儿"",
+      a: "参照录像回放中的视觉误差", b: '寻找肌肉发力时的那股"劲儿"',
       valA: "V", valB: "K" },
 
     { id: 38, dim: "VLD", tag: "Trap", rapid: false,
