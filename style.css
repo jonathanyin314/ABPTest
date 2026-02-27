@@ -65,3 +65,7 @@
 }
 
 input:focus { box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+
+/* 模式开关激活状态 */
+#mode-switch.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.2); }
+#mode-switch.active #switch-cursor { left: 2.1rem; background: #3b82f6; box-shadow: 0 0 15px #3b82f6; }
