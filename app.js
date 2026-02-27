@@ -81,23 +81,63 @@ const translations = {
     }
 };
 
-const questions = [
-    { dim: "A", zh: { q: "比赛中，你更倾向于监控全场的空档与跑位，还是死盯对位球员？", a: "监控全场", b: "死盯对位" }, en: { q: "During a game, do you tend to monitor open spaces and movements across the field, or stay glued to your direct opponent?", a: "Monitor Field", b: "Stay Glued" }, valA: "B", valB: "N" },
-    { dim: "A", zh: { q: "当你持球时，你的第一直觉是寻找远端队友，还是寻找面前进攻点？", a: "寻找远端", b: "寻找面前" }, en: { q: "When in possession, is your first instinct to look for distant open teammates or find an immediate attack point?", a: "Distant Open", b: "Attack Point" }, valA: "B", valB: "N" },
-    { dim: "A", zh: { q: "面对突发反击，你更倾向于观察整体阵型，还是加速追赶球权？", a: "观察阵型", b: "追赶球权" }, en: { q: "Facing a sudden counter-attack, do you prefer observing the overall formation change or sprinting to chase the ball?", a: "Observe Formation", b: "Chase Ball" }, valA: "B", valB: "N" },
-    { dim: "C", zh: { q: "罚球或射门前，你脑海中更多是身体发力感，还是球的运行轨迹？", a: "身体发力感", b: "运行轨迹" }, en: { q: "Before a shot or free throw, is your mind more focused on internal body feel or the external ball trajectory?", a: "Body Feel", b: "Trajectory" }, valA: "I", valB: "E" },
-    { dim: "C", zh: { q: "执行技术动作时，你更关注核心收紧感，还是动作的落点精准度？", a: "核心收紧感", b: "落点精准度" }, en: { q: "Executing a skill, do you focus more on the internal core tension or the external accuracy of the result?", a: "Core Tension", b: "Accuracy" }, valA: "I", valB: "E" },
-    { dim: "C", zh: { q: "当教练给出指令，你第一反应是检查动作细节，还是看向战术位置？", a: "动作细节", b: "战术位置" }, en: { q: "When a coach gives a cue, is your first reaction to check your body mechanics or look at the tactical position?", a: "Body Mechanics", b: "Tactical Position" }, valA: "I", valB: "E" },
-    { dim: "C", zh: { q: "疲劳状态下，你倾向于通过呼吸节奏找回状态，还是寻找外部参考点？", a: "呼吸节奏", b: "外部参考点" }, en: { q: "Under fatigue, do you tend to regain focus via internal breathing rhythm or by finding an external reference point?", a: "Breathing Rhythm", b: "External Point" }, valA: "I", valB: "E" },
-    { dim: "M", zh: { q: "什么最能激发你的斗志？", a: "掌握一项新技能", b: "击败对手" }, en: { q: "What motivates you the most?", a: "Mastering a new skill", b: "Defeating an opponent" }, valA: "T", valB: "E" },
-    { dim: "M", zh: { q: "你最希望获得的头衔是？", a: "技术大师", b: "荣誉传奇" }, en: { q: "Which title do you desire most?", a: "The Master of Technique", b: "The Legend of Honors" }, valA: "T", valB: "E" },
-    { dim: "M", zh: { q: "面对高强度训练，你更在意？", a: "超越昨天的自己", b: "表现排名第一" }, en: { q: "In high-intensity training, do you care more about surpassing yourself or ranking first in the group?", a: "Surpassing Self", b: "Ranking First" }, valA: "T", valB: "E" },
-    { dim: "R", zh: { q: "面对关键失误，你的第一反应是？", a: "冷面专注", b: "情感释放" }, en: { q: "Faced with a critical error, is your first reaction to stay stoic or release emotion?", a: "Stay Stoic", b: "Release Emotion" }, valA: "S", valB: "R" },
-    { dim: "R", zh: { q: "状态火热时，你通常表现得？", a: "冷酷专注", b: "激情互动" }, en: { q: "When you are 'in the zone', do you appear more cold and focused or fiery and interactive?", a: "Cold & Focused", b: "Fiery & Interactive" }, valA: "S", valB: "R" },
-    { dim: "R", zh: { q: "面对裁判误判，你会？", a: "压抑情绪", b: "表达立场" }, en: { q: "Facing a bad call from the referee, do you suppress emotion or express your stance?", a: "Suppress Emotion", b: "Express Stance" }, valA: "S", valB: "R" },
-    { dim: "P", zh: { q: "学习新战术，你觉得哪种更高效？", a: "观看视频示范", b: "场上亲身体验" }, en: { q: "What is the most efficient way for you to learn a new tactic?", a: "Watch videos/demos", b: "On-field experience" }, valA: "V", valB: "K" },
-    { dim: "P", zh: { q: "记忆最深的赛场瞬间通常是？", a: "视觉画面", b: "肌肉发力感" }, en: { q: "Your most vivid game memories are usually...", a: "Visual images", b: "Muscle sensations" }, valA: "V", valB: "K" },
-    { dim: "P", zh: { q: "教练讲解时，你更喜欢？", a: "看战术板箭头", b: "听描述后模仿" }, en: { q: "During a briefing, do you prefer looking at arrows on a board or listening and mimicking?", a: "Arrows on Board", b: "Listen & Mimic" }, valA: "V", valB: "K" }
+/* --- 任务 3: 全球母题库 v3.3 (Part 1 - Part 3) --- */
+const masterQuestions = [
+    // --- Part 1: Perception (感知通道) [V/K] ---
+    {
+        id: 1, dim: "P", tag: "V/K", rapid: true,
+        zh: {
+            S0: "当教练展示全新的高难度动作时，你通常希望：",
+            S1: "当教练展示全新的战术配合或高难度动作时，你通常希望：",
+            S2: "当教练展示一个新的格挡反击或高难度招式时，你通常希望：",
+            S3: "当教练展示一个新的战术落点配合或高难度击球动作时，你通常希望：",
+            S4: "当教练展示一个新的精准站位姿态或高难度击发动作时，你通常希望：",
+            S5: "当教练展示一个全新的核心发力技巧或高难度动作形态时，你通常希望：",
+            S6: "当教练展示一个新的艺术造型或高难度协调组合时，你通常希望：",
+            S7: "当教练展示一个新的高效划频、踏频或某种长途巡航姿态时，你通常希望："
+        },
+        a: { zh: "先看几遍演示或录像，在脑子里建立图像", val: "V" },
+        b: { zh: "直接上手试两次，通过身体试错找感觉", val: "K" }
+    },
+    {
+        id: 2, dim: "P", tag: "V/K", rapid: true,
+        zh: {
+            S0: "你觉得自己今天“动作顺了”，通常是因为：",
+            S2: "你觉得自己今天“出招顺了”或“练到位了”，通常是因为：",
+            S3: "你觉得自己今天“动作顺了”或者击球“找回手感了”，通常是因为：",
+            S4: "你觉得自己今天“找准准星了”或者“节奏顺了”，通常是因为：",
+            S7: "你觉得自己今天“巡航节奏稳了”或者“状态顺了”，通常是因为："
+        },
+        a: { zh: "我看到了我的动作轨迹/回放非常标准", val: "V" },
+        b: { zh: "我感觉到发力的那个“阻力点/节奏点”对了", val: "K" }
+    },
+    // --- Part 2: Cue (指令偏好) [Int/Ext] ---
+    {
+        id: 4, dim: "C", tag: "Int/Ext", rapid: true,
+        zh: {
+            S0: "在做一个需要爆发力的动作时，哪种指令更能帮你发上力？",
+            S2: "在做一个需要爆发力的动作（如重击、突刺）时，哪种指令能帮你发上力？",
+            S3: "在做一个需要爆发力的动作（如发球、扣杀）时，哪种指令能帮你发上力？",
+            S5: "在做一个需要爆发力的动作（如起跳、挺举）时，哪种指令能帮你发上力？",
+            S7: "在做一个需要爆发力的瞬间（如终点冲刺、上坡发力）时，哪种指令能帮你发上力？"
+        },
+        a: { zh: "“伸展你的关节”/“用力收缩你的肌肉”", val: "Int" },
+        b: { zh: "“把地面用力蹬开”/“想象你要撞破/冲破目标”", val: "Ext" }
+    },
+    // --- Part 3: Awareness (注意广度) [Broad/Narrow] ---
+    {
+        id: 7, dim: "A", tag: "B/N", rapid: true,
+        zh: {
+            S0: "在复杂的比赛环境中，你更擅长的是：",
+            S1: "在团队对抗或复杂的比赛环境中，你更擅长的是：",
+            S2: "在高强度的对抗环境中，你更擅长的是：",
+            S3: "在复杂的网前对峙或快速攻防中，你更擅长的是：",
+            S5: "在赛场准备或高强度的竞技环境中，你更擅长的是：",
+            S7: "在拥挤的出发区或高强度的集团作战环境中，你更擅长的是："
+        },
+        a: { zh: "瞬间阅读全场局势，预判跑位/环境变化", val: "Broad" },
+        b: { zh: "屏蔽噪音，死死盯住当前的 1 对 1/特定任务", val: "Narrow" }
+    }
 ];
 
 window.onload = function() {
@@ -172,7 +212,7 @@ function startQuiz() {
 
 function renderQuestion() {
     const totalQuestions = isRapidMode ? 8 : 16;
-    const q = questions[currentStep];
+    const q = masterQuestions[currentStep];
     const t = translations[currentLang];
     
     /* 动态进度条逻辑 (Task 2) */
@@ -183,10 +223,13 @@ function renderQuestion() {
     pb.style.width = `${percent}%`;
     pb.className = `h-full w-0 transition-all duration-700 ease-out dim-${q.dim}`; // 绑定变色 Class
     
-    document.getElementById('question-text').innerText = q[currentLang].q;
+    // 皮肤适配逻辑：优先选择当前皮肤话术，否则回退到 S0
+    const questionText = q[currentLang][activeSkin] || q[currentLang]['S0'];
+    
+    document.getElementById('question-text').innerText = questionText;
     document.getElementById('options-container').innerHTML = `
-        <button onclick="handleSelect('${q.dim}', '${q.valA}')" class="option-btn">A. ${q[currentLang].a}</button>
-        <button onclick="handleSelect('${q.dim}', '${q.valB}')" class="option-btn">B. ${q[currentLang].b}</button>
+        <button onclick="handleSelect('${q.dim}', '${q.a.val}')" class="option-btn">A. ${q.a[currentLang]}</button>
+        <button onclick="handleSelect('${q.dim}', '${q.b.val}')" class="option-btn">B. ${q.b[currentLang]}</button>
     `;
     
     document.getElementById('back-nav').innerHTML = currentStep > 0 ? `<button onclick="goBack()" class="mt-5 text-slate-500 hover:text-cyan-400 underline font-bold transition tracking-wider text-sm">${t.backBtn}</button>` : "";
