@@ -1,9 +1,58 @@
 /* --- APB CORE ENGINE v3.0 (Dynamic Progress & Modal Ready) --- */
 
+/* --- APB v3.3 Core Logic --- */
 let currentLang = 'zh';
 let currentStep = 0;
 let userAnswers = [];
 let userProfile = { gender: '', sport: '' };
+let isRapidMode = true; // 默认极速版
+let activeSkin = 'S0';  // 默认母题皮肤
+
+// 模式切换函数
+function toggleMode() {
+    isRapidMode = !isRapidMode;
+    const sw = document.getElementById('mode-switch');
+    const rLabel = document.getElementById('label-rapid');
+    const sLabel = document.getElementById('label-standard');
+    
+    if (!isRapidMode) {
+        sw.classList.add('active');
+        sLabel.classList.replace('text-slate-500', 'text-blue-400');
+        rLabel.classList.replace('text-blue-400', 'text-slate-500');
+    } else {
+        sw.classList.remove('active');
+        rLabel.classList.replace('text-slate-500', 'text-blue-400');
+        sLabel.classList.replace('text-blue-400', 'text-slate-500');
+    }
+}
+
+// 任务 2：项目映射引擎 (Sport-to-Skin Mapper)
+function getSkinBySport(sportName) {
+    const s = sportName.toLowerCase();
+    
+    // S1: 开放式团队对抗 
+    if (/(basket|foot|soccer|rugby|voley|handball|hockey|netball|cricket|baseball|ball)/.test(s)) return 'S1';
+    
+    // S2: 开放式单人对抗 
+    if (/(box|mma|fight|fenc|judo|wrestl|karate|muay|sanda)/.test(s)) return 'S2';
+    
+    // S3: 网隔对抗 
+    if (/(tennis|badminton|pingpong|table tennis|squash|pickleball|padel)/.test(s)) return 'S3';
+    
+    // S4: 封闭式精准目标
+    if (/(golf|shoot|archery|bowl|dart|billiards|snooker|curling)/.test(s)) return 'S4';
+    
+    // S5: 封闭式力量表现
+    if (/(weight|sprint|swim|jump|throw|shot put|track|field)/.test(s)) return 'S5';
+    
+    // S6: 审美表现评分
+    if (/(gymnast|skat|div|surf|climb|dance|breaking|equestrian)/.test(s)) return 'S6';
+    
+    // S7: 持续性耐力
+    if (/(marathon|cycl|triathlon|run|row|kayak|ski)/.test(s)) return 'S7';
+    
+    return 'S1'; // 无法识别时默认使用最通用的 S1 皮肤
+}
 
 const translations = {
     zh: {
@@ -105,7 +154,13 @@ function setGender(g) {
 
 function validateAndStart() {
     if (!userProfile.gender) { alert(translations[currentLang].alertGender); return; }
-    userProfile.sport = document.getElementById('sport-input').value.trim() || "Athlete"; 
+    const sportInput = document.getElementById('sport-input').value.trim();
+    userProfile.sport = sportInput || "Athlete"; 
+    
+    // 激活映射引擎
+    activeSkin = getSkinBySport(userProfile.sport);
+    console.log(`System: Sport mapped to Skin ${activeSkin}`);
+    
     startQuiz();
 }
 
@@ -116,12 +171,13 @@ function startQuiz() {
 }
 
 function renderQuestion() {
+    const totalQuestions = isRapidMode ? 8 : 16;
     const q = questions[currentStep];
     const t = translations[currentLang];
     
     /* 动态进度条逻辑 (Task 2) */
-    const percent = Math.round(((currentStep + 1) / 16) * 100);
-    document.getElementById('dim-indicator').innerText = `${t.questionLabel} ${q.dim} | ${currentStep + 1}/16`;
+    const percent = Math.round(((currentStep + 1) / totalQuestions) * 100);
+    document.getElementById('dim-indicator').innerText = `${t.questionLabel} ${q.dim} | ${currentStep + 1}/${totalQuestions}`;
     document.getElementById('progress-percent').innerText = `${percent}%`;
     const pb = document.getElementById('progress-bar');
     pb.style.width = `${percent}%`;
@@ -137,10 +193,16 @@ function renderQuestion() {
 }
 
 function handleSelect(dim, val) {
+    const totalQuestions = isRapidMode ? 8 : 16;
     userAnswers[currentStep] = { dim, val };
     currentStep++;
-    localStorage.setItem('apb_progress', JSON.stringify({ step: currentStep, answers: userAnswers, profile: userProfile }));
-    if (currentStep < 16) renderQuestion(); else showConfirmPage();
+    localStorage.setItem('apb_progress', JSON.stringify({ step: currentStep, answers: userAnswers, profile: userProfile, isRapid: isRapidMode }));
+    
+    if (currentStep < totalQuestions) {
+        renderQuestion();
+    } else {
+        showConfirmPage();
+    }
 }
 
 function goBack() { currentStep--; renderQuestion(); }
