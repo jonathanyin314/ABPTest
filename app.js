@@ -405,7 +405,7 @@ function renderQuestion() {
     const bar = document.getElementById('progress-bar');
     if (bar) {
         bar.style.width = `${percent}%`;
-        bar.className = `h-full transition-all duration-700 dim-${q.dim}`;
+        // 进度条固定蓝色，不随维度变色
     }
     const pct = document.getElementById('progress-percent');
     if (pct) pct.innerText = `${percent}%`;
